@@ -49,7 +49,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       {/* Gallery: when phoneCarousel set = first image (posters), then carousel, then rest; else full gallery */}
       {project.gallery.length > 0 || (project.phoneCarousel?.images.length ?? 0) > 0 ? (
         <section
-          className={`relative z-10 pt-2 sm:pt-4 ${slug === "world-of-hyatt" ? "pb-4 sm:pb-6" : "pb-16 sm:pb-24"}`}
+          className={`relative z-10 pt-2 sm:pt-4 ${project.projectLayout === "hyatt" ? "pb-4 sm:pb-6" : "pb-16 sm:pb-24"}`}
           aria-labelledby="gallery-heading"
         >
           <Container>
@@ -86,7 +86,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     </div>
                   )}
                 </div>
-                {/* Left overlay (World of Hyatt / Find your JOMO) — hides when this sentinel scrolls into view */}
+                {/* Left overlay (hyatt layout) — hides when this sentinel scrolls into view */}
                 {project.galleryOverlay && (
                   <LeftOverlayHideAfter overlay={project.galleryOverlay} />
                 )}
@@ -109,26 +109,26 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   );
                 })()}
                 {/* Three videos after note — autoplay (muted), loop while in view, pause when scrolled past */}
-                {project.slug === "world-of-hyatt" && (
+                {project.projectLayout === "hyatt" && project.videoRowSources && project.videoRowSources.length > 0 && (
                   <div className="mt-52 sm:mt-64">
                     {project.videoRowTitle && (
                       <p className="font-open-sans text-xs sm:text-sm text-foreground/70 tracking-[0.2em] uppercase font-light text-center">
                         {project.videoRowTitle}
                       </p>
                     )}
-                    <AutoPlayVideoRow skipTopMargin={!!project.videoRowTitle} />
+                    <AutoPlayVideoRow sources={project.videoRowSources} skipTopMargin={!!project.videoRowTitle} />
                     {project.videoRowNote && (
                       <p className="mt-16 sm:mt-20 mx-auto text-center max-w-xl font-canela text-lg sm:text-xl text-foreground/90 font-semibold italic leading-relaxed">
                         {project.videoRowNote}
                       </p>
                     )}
-                    {/* Magazine (yellow) image at end of World of Hyatt */}
-                    {project.slug === "world-of-hyatt" && (
+                    {/* Magazine image at end of hyatt layout */}
+                    {project.magazineImage && (
                       <figure className="mt-4 sm:mt-6 mb-0 max-w-7xl mx-auto group">
                         <div className="relative aspect-[4/5] sm:aspect-[3/4] bg-transparent overflow-hidden transition-transform duration-300 ease-out group-hover:scale-[1.08]">
                           <Image
-                            src="/projects/world-of-hyatt/hero/Gemini_Generated_Image_mwhla0mwhla0mwhl.png"
-                            alt="World of Hyatt magazine"
+                            src={project.magazineImage.src}
+                            alt={project.magazineImage.alt}
                             fill
                             className="object-contain"
                             sizes="(max-width: 1280px) 100vw, 80rem"
@@ -139,8 +139,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     )}
                   </div>
                 )}
-                {/* Rest of gallery — hidden for world-of-hyatt (3-tile row below videos removed) */}
-                {project.gallery.length > 1 && project.slug !== "world-of-hyatt" && (
+                {/* Rest of gallery — hidden for hyatt layout (3-tile row below videos removed) */}
+                {project.gallery.length > 1 && project.projectLayout !== "hyatt" && (
                   <div className="mt-0">
                     <Gallery
                       images={project.gallery.slice(2)}

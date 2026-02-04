@@ -2,14 +2,17 @@
 
 import { useEffect, useRef } from "react";
 
-const VIDEO_SOURCES = [
+const DEFAULT_VIDEO_SOURCES = [
   "/projects/world-of-hyatt/videos/1.mp4",
   "/projects/world-of-hyatt/videos/2.mp4",
   "/projects/world-of-hyatt/videos/3.mp4",
 ];
 
 /** Three videos that autoplay (muted) in view, pause when scrolled past. Sound only when hovering over that specific video. */
-export default function AutoPlayVideoRow({ skipTopMargin }: { skipTopMargin?: boolean } = {}) {
+export default function AutoPlayVideoRow({
+  sources = DEFAULT_VIDEO_SOURCES,
+  skipTopMargin,
+}: { sources?: string[]; skipTopMargin?: boolean } = {}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
@@ -62,7 +65,7 @@ export default function AutoPlayVideoRow({ skipTopMargin }: { skipTopMargin?: bo
       className={`max-w-5xl mx-auto w-full scroll-mt-20 sm:scroll-mt-24 snap-start relative ${skipTopMargin ? "" : "mt-36 sm:mt-48"}`}
     >
       <div className="grid gap-6 sm:grid-cols-3">
-        {VIDEO_SOURCES.map((src, i) => (
+        {sources.map((src, i) => (
           <figure
             key={src}
             className="space-y-3 group py-2 overflow-visible"

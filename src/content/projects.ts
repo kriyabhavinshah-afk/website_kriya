@@ -46,6 +46,12 @@ export interface Project {
   videoRowTitle?: string;
   /** Optional note/caption below the 3-tile video row */
   videoRowNote?: string;
+  /** Optional video URLs for the 3-tile autoplay row (when projectLayout is "hyatt") */
+  videoRowSources?: string[];
+  /** Optional magazine/final image at end of hyatt layout */
+  magazineImage?: { src: string; alt: string };
+  /** Layout variant: "hyatt" = first image + phone carousel + note + video row + magazine, no rest-of-gallery */
+  projectLayout?: "hyatt";
   /** Optional phone-frame carousel (e.g. Instagram slides); shown above gallery when set */
   phoneCarousel?: { images: { src: string; alt: string }[] };
   credits?: string;
@@ -257,9 +263,19 @@ export const projects: Project[] = [
       },
     ],
     galleryRowTitle: { forRow: 4, text: "Brand Identity" },
+    projectLayout: "hyatt",
     videoRowTitle: "OOH - Subway Activation",
     videoRowNote:
       "Three signature wellbeing experiences anchor the campaign, offering distinct pathways to presence through movement, reflection, and connection.",
+    videoRowSources: [
+      "/projects/world-of-hyatt/videos/1.mp4",
+      "/projects/world-of-hyatt/videos/2.mp4",
+      "/projects/world-of-hyatt/videos/3.mp4",
+    ],
+    magazineImage: {
+      src: "/projects/world-of-hyatt/hero/Gemini_Generated_Image_mwhla0mwhla0mwhl.png",
+      alt: "World of Hyatt magazine",
+    },
     credits: "Kriya Shah | Achal Agarwala | Zhiyin Lu | Chelsea Washington",
     phoneCarousel: {
       images: [
@@ -304,6 +320,132 @@ export const projects: Project[] = [
       },
       {
         src: "/projects/world-of-hyatt/process-book/bond-sai-process-book-2.jpg",
+        alt: "Bond-sai process book spread 2",
+        display: "largePlus",
+      },
+    ],
+  },
+  {
+    slug: "project-three",
+    title: "Project Three",
+    descriptor: "Global Wellness Brand Concept",
+    year: "2024",
+    tags: ["Brand Strategy", "Identity", "Experience Design", "Research"],
+    role: "Brand Strategist & Creative Lead",
+    context:
+      "Bond-sai is a global wellness brand concept positioned at the intersection of Eastern mindfulness and Western performance. The brief called for a brand that could scale across product, retail, and digital touchpoints while feeling cohesive and intentional.",
+    insight:
+      "Wellness consumers are fatigued by brands that promise transformation through products alone. The opportunity lies in brands that frame wellness as a practice and a community, not a transaction. Bond-sai reframes the category by emphasizing ritual, continuity, and quiet confidence rather than aspirational imagery.",
+    strategy: [
+      "Position Bond-sai as a practice-first wellness brand, not a product-first one",
+      "Develop brand pillars around Ritual, Continuity, and Quiet Confidence",
+      "Create a naming and verbal system that feels grounded and unhurried",
+      "Design for touchpoints that span product packaging, retail environments, and digital experiences",
+    ],
+    creativeDirection: [
+      "Establish a restrained visual language with a muted palette and generous whitespace",
+      "Use typography as the primary identity anchor, with minimal graphic elements",
+      "Develop a photography art direction that favors real moments over staged perfection",
+      "Create a flexible grid system that adapts across formats without losing coherence",
+    ],
+    deliverables: [
+      "Brand strategy deck and positioning framework",
+      "Brand identity system (logo, color, typography, guidelines)",
+      "Packaging concepts for core product line",
+      "Retail environment concept and spatial guidelines",
+      "Digital experience wireframes and key screen designs",
+    ],
+    impact: [
+      "Intended as a concept piece to demonstrate brand-building from insight to execution",
+      "Shows ability to develop end-to-end brand systems with a clear strategic thread",
+      "Portfolio piece for wellness, lifestyle, and luxury-adjacent categories",
+    ],
+    galleryOverlay: {
+      line1: "A World of Hyatt Experience",
+      line2: "Find your JOMO.",
+    },
+    galleryOverlayRight: {
+      line1: "Reimagining Hyatt's wellbeing experiences through the lens of JOMO.",
+      line2: "",
+    },
+    galleryNotes: [
+      {
+        forRow: 2,
+        header: "NOTE",
+        lines: [
+          "Grounded in research on Gen Z and Millennial travel behavior, the experience is designed for intentional rest, self-connection, and digital disconnection—responding to a growing shift toward JOMO-driven travel.",
+        ],
+        fontStyle: "note-image",
+      },
+      {
+        forRow: 3,
+        header: "",
+        lines: [
+          "The visual language draws from Bond-sai's pillars of Ritual, Continuity, and Quiet Confidence. A restrained palette, minimal graphic elements, and real moments over staged perfection create a brand that feels grounded, unhurried, and intentional.",
+        ],
+        alignToImage: true,
+        fontStyle: "note-muted",
+        moreSpacing: true,
+      },
+    ],
+    galleryRowTitle: { forRow: 4, text: "Brand Identity" },
+    projectLayout: "hyatt",
+    videoRowTitle: "OOH - Subway Activation",
+    videoRowNote:
+      "Three signature wellbeing experiences anchor the campaign, offering distinct pathways to presence through movement, reflection, and connection.",
+    videoRowSources: [
+      "/projects/project-three/videos/1.mp4",
+      "/projects/project-three/videos/2.mp4",
+      "/projects/project-three/videos/3.mp4",
+    ],
+    magazineImage: {
+      src: "/projects/project-three/hero/Gemini_Generated_Image_mwhla0mwhla0mwhl.png",
+      alt: "Project Three magazine",
+    },
+    credits: "Kriya Shah | Achal Agarwala | Zhiyin Lu | Chelsea Washington",
+    phoneCarousel: {
+      images: [
+        { src: "/projects/project-three/instagram/Instagram-01.png", alt: "Project Three Instagram post 1" },
+        { src: "/projects/project-three/instagram/Instagram-02.png", alt: "Project Three Instagram post 2" },
+        { src: "/projects/project-three/instagram/Instagram-03.png", alt: "Project Three Instagram post 3" },
+      ],
+    },
+    gallery: [
+      {
+        src: "/projects/project-three/hero/posters.jpg",
+        alt: "Project Three posters",
+        display: "largePlus",
+      },
+      {
+        src: "/projects/project-three/hero/bond-sai-hero-2.png",
+        alt: "Bond-sai identity system",
+        display: "mediumNarrow",
+      },
+      {
+        src: "/projects/project-three/grids/bond-sai-grid-b-1.jpg",
+        alt: "Bond-sai retail concept",
+        display: "small",
+        group: "grid-b",
+      },
+      {
+        src: "/projects/project-three/grids/bond-sai-grid-b-2.jpg",
+        alt: "Bond-sai digital experience",
+        display: "small",
+        group: "grid-b",
+      },
+      {
+        src: "/projects/project-three/grids/bond-sai-grid-b-3.jpg",
+        alt: "Bond-sai product line",
+        display: "small",
+        group: "grid-b",
+      },
+      {
+        src: "/projects/project-three/process-book/bond-sai-process-book-1.jpg",
+        alt: "Bond-sai process book spread 1",
+        display: "largePlus",
+      },
+      {
+        src: "/projects/project-three/process-book/bond-sai-process-book-2.jpg",
         alt: "Bond-sai process book spread 2",
         display: "largePlus",
       },
