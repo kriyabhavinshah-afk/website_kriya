@@ -329,13 +329,14 @@ export default function Gallery({
         const containerClass = containerByDisplay[display];
         const variant = display === "hero" ? "hero" : "single";
         const rowNote = notes?.find((n) => n.forRow === rowIndex);
+        const isFirstRowWithOverlay = overlay && rowIndex === 0;
 
         return (
           <div
             key={`single-${rowIndex}`}
             ref={rowIndex === 1 ? secondRowRef : rowIndex === 2 ? thirdRowRef : undefined}
             role="listitem"
-            className={`${widthClass} ${paddingClass} ${spacingClass} scroll-mt-20 sm:scroll-mt-24 snap-start`}
+            className={`${widthClass} ${paddingClass} ${spacingClass} scroll-mt-20 sm:scroll-mt-24 snap-start ${isFirstRowWithOverlay ? "min-h-screen flex items-center" : ""}`}
           >
             <GalleryItem
               image={row.image}
