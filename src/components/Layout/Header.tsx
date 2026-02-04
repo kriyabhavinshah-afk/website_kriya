@@ -6,9 +6,9 @@ import { useState } from "react";
 import { siteConfig } from "@/content/projects";
 
 const navLinks = [
-  { href: "/work", label: "Work", shade: "bg-neutral-500" },
-  { href: "/about", label: "About", shade: "bg-neutral-600" },
-  { href: "/contact", label: "Contact", shade: "bg-neutral-700" },
+  { href: "/work", label: "Work" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Header() {
@@ -39,28 +39,18 @@ export default function Header() {
       >
         {/* Right nav */}
         <div className="flex items-center justify-end">
-          <ul className="hidden sm:flex items-center gap-2">
+          <ul className="hidden sm:flex items-center gap-6 sm:gap-8">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  aria-label={link.label}
-                  className={`group flex h-6 items-center overflow-hidden ${link.shade} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                  className={`text-sm font-medium tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
                     isProjectPage
-                      ? "focus-visible:ring-black/30 focus-visible:ring-offset-white"
-                      : "focus-visible:ring-white/50 focus-visible:ring-offset-black"
-                  } ${
-                    pathname === link.href ? "ring-1 ring-inset " + (isProjectPage ? "ring-black/20" : "ring-white/20") : "hover:brightness-110"
-                  }`}
+                      ? "text-black/80 hover:text-black focus-visible:ring-black/30 focus-visible:ring-offset-white"
+                      : "text-white/80 hover:text-white focus-visible:ring-white/50 focus-visible:ring-offset-black"
+                  } ${pathname === link.href ? (isProjectPage ? "text-black" : "text-white") : ""}`}
                 >
-                  <span className="flex h-6 w-6 shrink-0" aria-hidden />
-                  <span className="flex min-w-0 max-w-0 overflow-hidden transition-[max-width] duration-300 ease-out group-hover:max-w-max">
-                    <span className={`whitespace-nowrap pl-2 pr-3 py-1.5 text-sm font-medium tracking-wide opacity-0 -translate-x-1 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0 ${
-                      isProjectPage ? "text-black" : "text-white"
-                    }`}>
-                      {link.label}
-                    </span>
-                  </span>
+                  {link.label}
                 </Link>
               </li>
             ))}
