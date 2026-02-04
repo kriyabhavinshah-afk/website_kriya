@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useState } from "react";
 import { motion } from "framer-motion";
 import { useReducedMotion } from "framer-motion";
 
 export default function Hero() {
   const reduceMotion = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoFailed, setVideoFailed] = useState(false);
 
   const setPlaybackRate = useCallback(() => {
     const video = videoRef.current;
@@ -19,19 +20,25 @@ export default function Hero() {
 
   return (
     <>
-      {/* Full-viewport video - fixed, extends under header */}
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        onLoadedMetadata={setPlaybackRate}
-        className="fixed inset-0 w-full h-full object-cover z-0"
-        aria-hidden
-      >
-        <source src="/hero-video.mov" type="video/quicktime" />
-      </video>
+      {/* Full-viewport video - fixed, extends under header. Chrome doesn't support .mov; show fallback. */}
+      {!videoFailed ? (
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          onLoadedMetadata={setPlaybackRate}
+          onError={() => setVideoFailed(true)}
+          className="fixed inset-0 w-full h-full object-cover z-0"
+          aria-hidden
+        >
+          <source src="/hero-video.mov" type="video/quicktime" />
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </video>
+      ) : (
+        <div className="fixed inset-0 w-full h-full bg-neutral-800 z-0" aria-hidden />
+      )}
       {/* Tagline always visible */}
       <motion.div
         initial={{ opacity: 0 }}
