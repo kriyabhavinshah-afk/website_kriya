@@ -2,7 +2,7 @@ import Link from "next/link";
 import { projects, siteConfig } from "@/content/projects";
 import Container from "@/components/Container";
 import SectionHeading from "@/components/SectionHeading";
-import ProjectCard from "@/components/ProjectCard";
+import ProjectsCarousel from "@/components/ProjectsCarousel";
 import Hero from "@/components/Hero";
 import AnimatedSection from "@/components/AnimatedSection";
 
@@ -11,7 +11,7 @@ export default function HomePage() {
     <>
       <Hero />
 
-      {/* Selected Work - LORE-style clean grid */}
+      {/* Selected Work - carousel, 3 visible at a time (1 on mobile) */}
       <section
         className="relative z-10 py-24 sm:py-32 border-t border-border bg-background"
         aria-labelledby="selected-work"
@@ -22,13 +22,7 @@ export default function HomePage() {
               Selected Work
             </SectionHeading>
           </AnimatedSection>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 sm:gap-16">
-            {projects.map((project, i) => (
-              <AnimatedSection key={project.slug} delay={i * 0.08}>
-                <ProjectCard project={project} variant="home" index={i} />
-              </AnimatedSection>
-            ))}
-          </div>
+          <ProjectsCarousel projects={projects} />
         </Container>
       </section>
 
