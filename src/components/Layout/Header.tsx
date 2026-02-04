@@ -14,17 +14,20 @@ const navLinks = [
 export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isProjectPage = pathname.startsWith("/work/");
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 bg-black"
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors ${isProjectPage ? "bg-white" : "bg-black"}`}
       role="banner"
       aria-label="Site header"
     >
       {/* Brand name - centered on viewport like Creative Strategist */}
       <Link
         href="/"
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-open-sans text-2xl sm:text-3xl text-white hover:text-white/90 transition-colors"
+        className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-open-sans text-2xl sm:text-3xl transition-colors ${
+          isProjectPage ? "text-black hover:text-black/90" : "text-white hover:text-white/90"
+        }`}
         aria-label="Kriya Shah - Home"
       >
         {siteConfig.name}
@@ -42,13 +45,19 @@ export default function Header() {
                 <Link
                   href={link.href}
                   aria-label={link.label}
-                  className={`group flex h-6 items-center overflow-hidden ${link.shade} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
-                    pathname === link.href ? "ring-1 ring-white/20 ring-inset" : "hover:brightness-110"
+                  className={`group flex h-6 items-center overflow-hidden ${link.shade} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                    isProjectPage
+                      ? "focus-visible:ring-black/30 focus-visible:ring-offset-white"
+                      : "focus-visible:ring-white/50 focus-visible:ring-offset-black"
+                  } ${
+                    pathname === link.href ? "ring-1 ring-inset " + (isProjectPage ? "ring-black/20" : "ring-white/20") : "hover:brightness-110"
                   }`}
                 >
                   <span className="flex h-6 w-6 shrink-0" aria-hidden />
                   <span className="flex min-w-0 max-w-0 overflow-hidden transition-[max-width] duration-300 ease-out group-hover:max-w-max">
-                    <span className="whitespace-nowrap pl-2 pr-3 py-1.5 text-sm font-medium tracking-wide text-white opacity-0 -translate-x-1 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0">
+                    <span className={`whitespace-nowrap pl-2 pr-3 py-1.5 text-sm font-medium tracking-wide opacity-0 -translate-x-1 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0 ${
+                      isProjectPage ? "text-black" : "text-white"
+                    }`}>
                       {link.label}
                     </span>
                   </span>
@@ -59,7 +68,7 @@ export default function Header() {
 
           <button
           type="button"
-          className="sm:hidden p-2 -mr-2 text-white/80 hover:text-white transition-colors"
+          className={`sm:hidden p-2 -mr-2 transition-colors ${isProjectPage ? "text-black/80 hover:text-black" : "text-white/80 hover:text-white"}`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-menu"
