@@ -40,7 +40,7 @@ export default function PhoneCarousel({ images, className = "" }: PhoneCarouselP
     <div className={`flex flex-col items-center pt-0 pb-5 sm:pb-5 ${className}`}>
       {/* Single frame – only image size; no background box */}
       <div
-        className="relative w-full max-w-[1000px] mx-auto overflow-hidden transition-transform duration-300 ease-out hover:scale-[1.12]"
+        className="relative w-full max-w-[1280px] mx-auto overflow-hidden transition-transform duration-300 ease-out hover:scale-[1.12]"
         style={{ aspectRatio: "3125 / 2084" }}
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
@@ -57,7 +57,7 @@ export default function PhoneCarousel({ images, className = "" }: PhoneCarouselP
               alt={i === index ? img.alt : ""}
               fill
               className="object-contain"
-              sizes="800px"
+              sizes="(max-width: 1280px) 100vw, 1280px"
               unoptimized
             />
           </div>

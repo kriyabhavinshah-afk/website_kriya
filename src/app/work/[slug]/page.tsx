@@ -75,7 +75,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </div>
                 {/* Second: carousel (Instagram 1, 2, 3) — centered as before; right-side text absolutely positioned so carousel doesn't move */}
                 <div className="mt-10 sm:mt-16 relative">
-                  <div className="max-w-[1000px] mx-auto">
+                  <div className="max-w-[1280px] mx-auto">
                     <PhoneCarousel images={project.phoneCarousel.images} />
                   </div>
                   {project.galleryOverlayRight?.line1 && (
