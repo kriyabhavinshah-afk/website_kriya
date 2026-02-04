@@ -48,53 +48,55 @@ export default function ProjectsCarousel({ projects, className = "" }: ProjectsC
   const translatePercent = -index * cardWidthPercent;
 
   return (
-    <div
-      className={`relative w-full overflow-hidden px-12 sm:px-14 ${className}`}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
+    <div className={`mx-auto max-w-6xl ${className}`}>
       <div
-        className="flex transition-transform duration-500 ease-out"
-        style={{
-          width: `${trackWidthPercent}%`,
-          transform: `translateX(${translatePercent}%)`,
-        }}
+        className="relative w-full overflow-hidden px-12 sm:px-14"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
       >
-        {trackProjects.map((project, i) => (
-          <div
-            key={`${project.slug}-${i}`}
-            className="flex-shrink-0 px-2 sm:px-3"
-            style={{ width: `${cardWidthPercent}%` }}
-          >
-            <ProjectCard project={project} variant="home" index={i} />
-          </div>
-        ))}
-      </div>
+        <div
+          className="flex transition-transform duration-500 ease-out"
+          style={{
+            width: `${trackWidthPercent}%`,
+            transform: `translateX(${translatePercent}%)`,
+          }}
+        >
+          {trackProjects.map((project, i) => (
+            <div
+              key={`${project.slug}-${i}`}
+              className="flex-shrink-0 box-border px-2 sm:px-3"
+              style={{ width: `${cardWidthPercent}%` }}
+            >
+              <ProjectCard project={project} variant="home" index={i} />
+            </div>
+          ))}
+        </div>
 
-      {n > visibleCount && (
-        <>
-          <button
-            type="button"
-            onClick={goPrev}
-            className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/90 p-2 text-foreground shadow-md transition-colors hover:bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
-            aria-label="Previous projects"
-          >
-            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={goNext}
-            className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/90 p-2 text-foreground shadow-md transition-colors hover:bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
-            aria-label="Next projects"
-          >
-            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </>
-      )}
+        {n > visibleCount && (
+          <>
+            <button
+              type="button"
+              onClick={goPrev}
+              className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/90 p-2 text-foreground shadow-md transition-colors hover:bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+              aria-label="Previous projects"
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={goNext}
+              className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/90 p-2 text-foreground shadow-md transition-colors hover:bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+              aria-label="Next projects"
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 }
