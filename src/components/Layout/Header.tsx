@@ -34,12 +34,11 @@ export default function Header() {
       </Link>
 
       <nav
-        className="max-w-wide mx-auto px-6 py-5 sm:py-6 flex items-center justify-end"
+        className="w-full px-6 py-5 sm:py-6 flex items-center justify-end"
         aria-label="Main navigation"
       >
-        {/* Right nav */}
-        <div className="flex items-center justify-end">
-          <ul className="hidden sm:flex items-center gap-6 sm:gap-8">
+        <div className="flex items-center justify-end w-full sm:w-auto">
+          <ul className="hidden sm:flex items-center gap-6 sm:gap-8 sm:ml-auto">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
