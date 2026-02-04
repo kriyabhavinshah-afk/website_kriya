@@ -336,7 +336,7 @@ export default function Gallery({
             key={`single-${rowIndex}`}
             ref={rowIndex === 1 ? secondRowRef : rowIndex === 2 ? thirdRowRef : undefined}
             role="listitem"
-            className={`${widthClass} ${paddingClass} ${spacingClass} scroll-mt-20 sm:scroll-mt-24 snap-start ${isFirstRowWithOverlay ? "pt-[30vh]" : ""}`}
+            className={`${widthClass} ${paddingClass} ${spacingClass} scroll-mt-20 sm:scroll-mt-24 snap-start ${isFirstRowWithOverlay ? "pt-[20vh]" : ""}`}
           >
             <GalleryItem
               image={row.image}
