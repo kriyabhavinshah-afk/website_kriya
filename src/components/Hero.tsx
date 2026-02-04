@@ -33,8 +33,8 @@ export default function Hero() {
           className="fixed inset-0 w-full h-full object-cover z-0"
           aria-hidden
         >
-          <source src="/hero-video.mov" type="video/quicktime" />
           <source src="/hero-video.mp4" type="video/mp4" />
+          <source src="/hero-video.mov" type="video/quicktime" />
         </video>
       ) : (
         <div className="fixed inset-0 w-full h-full bg-neutral-800 z-0" aria-hidden />
