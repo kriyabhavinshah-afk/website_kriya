@@ -7,8 +7,14 @@ export interface GalleryImage {
   src: string;
   alt: string;
   caption?: string;
-  display?: "hero" | "large" | "largePlus" | "medium" | "mediumNarrow" | "small" | "compact";
+  display?: "hero" | "largeX" | "large" | "largePlus" | "medium" | "mediumNarrow" | "small" | "compact";
   group?: string;
+  /** Reduce top spacing for this row (useful for images that feel too far below the previous) */
+  reduceTopSpacing?: boolean;
+  /** Tight top spacing for this row (useful for pulling two rows closer) */
+  tightTopSpacing?: boolean;
+  /** Extra top spacing for this row (adds more gap above, first image position unchanged) */
+  extraTopSpacing?: boolean;
 }
 
 export type GalleryLayout = "default" | "editorial";
@@ -29,6 +35,8 @@ export interface Project {
   gallery: GalleryImage[];
   galleryLayout?: GalleryLayout;
   galleryOverlay?: { line1: string; line2: string };
+  /** Row index (0-based) at which the left overlay title hides. Default: 3 or 2 depending on gallery length. */
+  overlayHideAfterRow?: number;
   galleryOverlayRight?: { line1: string; line2: string };
   galleryNotes?: {
     forRow: number;
@@ -39,6 +47,10 @@ export interface Project {
     bigger?: boolean;
     blacker?: boolean;
     moreSpacing?: boolean;
+    /** Extra-large top spacing between image and note */
+    extraSpacing?: boolean;
+    /** Remove bottom spacing below the note */
+    noSpacingBelow?: boolean;
     fontStyle?: "note-image" | "note-muted";
   }[];
   galleryRowTitle?: { forRow: number; text: string };
@@ -139,6 +151,7 @@ export const projects: Project[] = [
       {
         src: "/projects/thom-brown/hero/thom-brown-hero.png",
         alt: "Thom Browne editorial collage hero",
+        caption: "Cover",
         display: "small",
       },
       {
@@ -235,6 +248,14 @@ export const projects: Project[] = [
       "Portfolio piece for wellness, lifestyle, and luxury-adjacent categories",
     ],
     galleryOverlay: {
+      line1: "Sukoon",
+      line2: "",
+    },
+    galleryOverlay: {
+      line1: "Sukoon",
+      line2: "",
+    },
+    galleryOverlay: {
       line1: "A World of Hyatt Experience",
       line2: "Find your JOMO.",
     },
@@ -326,18 +347,18 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "project-three",
-    title: "Project Three",
-    descriptor: "Global Wellness Brand Concept",
+    slug: "sukoon",
+    title: "Sukoon",
+    descriptor: "A Luxury Interior Brand",
     year: "2024",
     tags: ["Brand Strategy", "Identity", "Experience Design", "Research"],
     role: "Brand Strategist & Creative Lead",
     context:
-      "Bond-sai is a global wellness brand concept positioned at the intersection of Eastern mindfulness and Western performance. The brief called for a brand that could scale across product, retail, and digital touchpoints while feeling cohesive and intentional.",
+      "Sukoon is a luxury interior brand concept positioned at the intersection of Eastern mindfulness and Western performance. The brief called for a brand that could scale across product, retail, and digital touchpoints while feeling cohesive and intentional.",
     insight:
-      "Wellness consumers are fatigued by brands that promise transformation through products alone. The opportunity lies in brands that frame wellness as a practice and a community, not a transaction. Bond-sai reframes the category by emphasizing ritual, continuity, and quiet confidence rather than aspirational imagery.",
+      "Wellness consumers are fatigued by brands that promise transformation through products alone. The opportunity lies in brands that frame wellness as a practice and a community, not a transaction. Sukoon reframes the category by emphasizing ritual, continuity, and quiet confidence rather than aspirational imagery.",
     strategy: [
-      "Position Bond-sai as a practice-first wellness brand, not a product-first one",
+      "Position Sukoon as a practice-first wellness brand, not a product-first one",
       "Develop brand pillars around Ritual, Continuity, and Quiet Confidence",
       "Create a naming and verbal system that feels grounded and unhurried",
       "Design for touchpoints that span product packaging, retail environments, and digital experiences",
@@ -361,93 +382,73 @@ export const projects: Project[] = [
       "Portfolio piece for wellness, lifestyle, and luxury-adjacent categories",
     ],
     galleryOverlay: {
-      line1: "A World of Hyatt Experience",
-      line2: "Find your JOMO.",
+      line1: "Sukoon",
+      line2: "A Luxury Interior Brand.",
     },
-    galleryOverlayRight: {
-      line1: "Reimagining Hyatt's wellbeing experiences through the lens of JOMO.",
-      line2: "",
-    },
+    overlayHideAfterRow: 2,
     galleryNotes: [
       {
-        forRow: 2,
+        forRow: 1,
         header: "NOTE",
         lines: [
-          "Grounded in research on Gen Z and Millennial travel behavior, the experience is designed for intentional rest, self-connection, and digital disconnection—responding to a growing shift toward JOMO-driven travel.",
+          "Soft forms.",
+          "Natural tones.",
+          "Spaces designed to breathe.",
         ],
         fontStyle: "note-image",
-      },
-      {
-        forRow: 3,
-        header: "",
-        lines: [
-          "The visual language draws from Bond-sai's pillars of Ritual, Continuity, and Quiet Confidence. A restrained palette, minimal graphic elements, and real moments over staged perfection create a brand that feels grounded, unhurried, and intentional.",
-        ],
-        alignToImage: true,
-        fontStyle: "note-muted",
-        moreSpacing: true,
+        extraSpacing: true,
+        noSpacingBelow: true,
       },
     ],
-    galleryRowTitle: { forRow: 4, text: "Brand Identity" },
-    projectLayout: "hyatt",
-    videoRowTitle: "OOH - Subway Activation",
-    videoRowNote:
-      "Three signature wellbeing experiences anchor the campaign, offering distinct pathways to presence through movement, reflection, and connection.",
-    videoRowSources: [
-      "/projects/project-three/videos/1.mp4",
-      "/projects/project-three/videos/2.mp4",
-      "/projects/project-three/videos/3.mp4",
-    ],
-    magazineImage: {
-      src: "/projects/project-three/hero/Gemini_Generated_Image_mwhla0mwhla0mwhl.png",
-      alt: "Project Three magazine",
-    },
     credits: "Kriya Shah | Achal Agarwala | Zhiyin Lu | Chelsea Washington",
-    phoneCarousel: {
-      images: [
-        { src: "/projects/project-three/instagram/Instagram-01.png", alt: "Project Three Instagram post 1" },
-        { src: "/projects/project-three/instagram/Instagram-02.png", alt: "Project Three Instagram post 2" },
-        { src: "/projects/project-three/instagram/Instagram-03.png", alt: "Project Three Instagram post 3" },
-      ],
-    },
     gallery: [
       {
-        src: "/projects/project-three/hero/posters.jpg",
-        alt: "Project Three posters",
+        src: "/projects/sukoon/cover.png",
+        alt: "Sukoon cover",
+        caption: "Cover",
+        display: "compact",
+      },
+      {
+        src: "/projects/sukoon/supply-chain-strategy-sukoon.jpg",
+        alt: "Sukoon Supply Chain Strategy Project",
+        display: "medium",
+        extraTopSpacing: true,
+      },
+      {
+        src: "/projects/sukoon/3.png",
+        alt: "Sukoon image 3",
+        display: "largeX",
+        reduceTopSpacing: true,
+      },
+      {
+        src: "/projects/sukoon/4.jpg",
+        alt: "Sukoon image 4",
+        display: "medium",
+        tightTopSpacing: true,
+      },
+      {
+        src: "/projects/sukoon/5.png",
+        alt: "Sukoon image 5",
         display: "largePlus",
+        reduceTopSpacing: true,
       },
       {
-        src: "/projects/project-three/hero/bond-sai-hero-2.png",
-        alt: "Bond-sai identity system",
-        display: "mediumNarrow",
+        src: "/projects/sukoon/6.jpg",
+        alt: "Sukoon image 6",
+        display: "medium",
+        reduceTopSpacing: true,
       },
       {
-        src: "/projects/project-three/grids/bond-sai-grid-b-1.jpg",
-        alt: "Bond-sai retail concept",
-        display: "small",
-        group: "grid-b",
-      },
-      {
-        src: "/projects/project-three/grids/bond-sai-grid-b-2.jpg",
-        alt: "Bond-sai digital experience",
-        display: "small",
-        group: "grid-b",
-      },
-      {
-        src: "/projects/project-three/grids/bond-sai-grid-b-3.jpg",
-        alt: "Bond-sai product line",
-        display: "small",
-        group: "grid-b",
-      },
-      {
-        src: "/projects/project-three/process-book/bond-sai-process-book-1.jpg",
-        alt: "Bond-sai process book spread 1",
+        src: "/projects/sukoon/7.png",
+        alt: "Sukoon image 7",
         display: "largePlus",
+        reduceTopSpacing: true,
       },
       {
-        src: "/projects/project-three/process-book/bond-sai-process-book-2.jpg",
-        alt: "Bond-sai process book spread 2",
+        src: "/projects/sukoon/8.jpg",
+        alt: "Sukoon image 8",
         display: "largePlus",
+        reduceTopSpacing: true,
       },
     ],
   },

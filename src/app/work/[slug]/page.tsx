@@ -49,7 +49,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       {/* Gallery: when phoneCarousel set = first image (posters), then carousel, then rest; else full gallery */}
       {project.gallery.length > 0 || (project.phoneCarousel?.images.length ?? 0) > 0 ? (
         <section
-          className={`relative z-10 pt-2 sm:pt-4 ${project.projectLayout === "hyatt" ? "pb-4 sm:pb-6" : "pb-16 sm:pb-24"}`}
+          className={`relative z-10 pt-2 sm:pt-4 ${project.projectLayout === "hyatt" ? "pb-0" : "pb-16 sm:pb-24"}`}
           aria-labelledby="gallery-heading"
         >
           <Container>
@@ -58,7 +58,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </h2>
             {project.phoneCarousel && project.phoneCarousel.images.length > 0 && project.gallery.length > 0 ? (
               <>
-                {/* First image (e.g. posters.jpg) */}
+                {/* First image (e.g. posters.jpg) — centered, no top padding */}
                 <div className="max-w-[52rem] mx-auto pt-0 pb-5 sm:pb-5 scroll-mt-20 sm:scroll-mt-24 snap-start">
                   <figure className="space-y-3 group py-2 overflow-visible">
                     <div className="relative aspect-[4/5] sm:aspect-[3/4] bg-transparent overflow-hidden transition-transform duration-300 ease-out group-hover:scale-[1.08]">
@@ -152,7 +152,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               </>
             ) : (
               project.gallery.length > 0 && (
-                <Gallery images={project.gallery} overlay={project.galleryOverlay} overlayRight={project.galleryOverlayRight} notes={project.galleryNotes} rowTitle={project.galleryRowTitle} />
+                <Gallery images={project.gallery} overlay={project.galleryOverlay} overlayHideAfterRow={project.overlayHideAfterRow} overlayRight={project.galleryOverlayRight} notes={project.galleryNotes} rowTitle={project.galleryRowTitle} />
               )
             )}
           </Container>
