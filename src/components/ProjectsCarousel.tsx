@@ -57,15 +57,6 @@ export default function ProjectsCarousel({ projects, className = "" }: ProjectsC
     return () => window.clearInterval(intervalId);
   }, [n, isPaused, goNext]);
 
-  if (n === 0) return null;
-
-  const trackProjects = [...projects, ...projects, ...projects];
-  const trackN = trackProjects.length;
-  const gapPx = GAP_REM * 16;
-  const cardWidthPx = stepPx > 0 ? stepPx - gapPx : 0;
-  const translatePx = -index * stepPx;
-  const trackWidthPx = trackN * cardWidthPx + (trackN - 1) * gapPx;
-
   useEffect(() => {
     if (!initializedRef.current && n > 0) {
       setIsJumping(true);
@@ -79,6 +70,15 @@ export default function ProjectsCarousel({ projects, className = "" }: ProjectsC
     const id = requestAnimationFrame(() => setIsJumping(false));
     return () => cancelAnimationFrame(id);
   }, [isJumping]);
+
+  if (n === 0) return null;
+
+  const trackProjects = [...projects, ...projects, ...projects];
+  const trackN = trackProjects.length;
+  const gapPx = GAP_REM * 16;
+  const cardWidthPx = stepPx > 0 ? stepPx - gapPx : 0;
+  const translatePx = -index * stepPx;
+  const trackWidthPx = trackN * cardWidthPx + (trackN - 1) * gapPx;
 
   const handleTransitionEnd = () => {
     if (n === 0) return;

@@ -248,14 +248,6 @@ export const projects: Project[] = [
       "Portfolio piece for wellness, lifestyle, and luxury-adjacent categories",
     ],
     galleryOverlay: {
-      line1: "Sukoon",
-      line2: "",
-    },
-    galleryOverlay: {
-      line1: "Sukoon",
-      line2: "",
-    },
-    galleryOverlay: {
       line1: "A World of Hyatt Experience",
       line2: "Find your JOMO.",
     },
