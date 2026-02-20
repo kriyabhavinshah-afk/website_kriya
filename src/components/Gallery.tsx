@@ -9,6 +9,13 @@ interface GalleryProps {
   overlay?: { line1: string; line2: string };
   overlayHideAfterRow?: number;
   overlayRight?: { line1: string; line2: string };
+  /** Show right overlay when first row is in view (default: second row) */
+  overlayRightShowFromFirst?: boolean;
+  /** Hide right overlay when this row index comes into view (e.g. 2 = hide after second image) */
+  overlayRightHideAfterRow?: number;
+  /** Optional external ref for show sentinel (e.g. mood board section); when set, used instead of firstRowRef */
+  overlayRightShowRef?: React.RefObject<HTMLDivElement | null>;
+  compactBottom?: boolean;
   notes?: {
     forRow: number;
     header: string;
@@ -20,13 +27,15 @@ interface GalleryProps {
     moreSpacing?: boolean;
     extraSpacing?: boolean;
     noSpacingBelow?: boolean;
+    looserSpacingAfterNote?: boolean;
     fontStyle?: "note-image" | "note-muted";
   }[];
   rowTitle?: { forRow: number; text: string };
+  rowTitles?: { forRow: number; text: string }[];
   className?: string;
 }
 
-type DisplaySize = "hero" | "largeX" | "large" | "largePlus" | "medium" | "mediumNarrow" | "small" | "compact";
+type DisplaySize = "heroXX" | "heroX" | "hero" | "largeX" | "large" | "largePlus" | "medium" | "mediumNarrow" | "small" | "compact";
 
 function GalleryItem({
   image,
@@ -85,11 +94,22 @@ function GalleryItem({
           onError={() => setHasError(true)}
         />
       </div>
+      {variant === "grid" && image.caption && (
+        <p
+          className={`font-open-sans text-xs sm:text-sm text-foreground/70 font-light ${
+            image.captionJustify ? "text-justify" : "text-center"
+          }`}
+        >
+          {image.caption}
+        </p>
+      )}
     </figure>
   );
 }
 
 const widthByDisplay: Record<DisplaySize, string> = {
+  heroXX: "max-w-7xl mx-auto",
+  heroX: "max-w-6xl mx-auto",
   hero: "max-w-4xl mx-auto",
   largeX: "max-w-[54rem] mx-auto",
   large: "max-w-3xl mx-auto",
@@ -101,6 +121,8 @@ const widthByDisplay: Record<DisplaySize, string> = {
 };
 
 const paddingByDisplay: Record<DisplaySize, string> = {
+  heroXX: "py-8",
+  heroX: "py-8",
   hero: "py-8",
   largeX: "py-5",
   large: "py-5",
@@ -112,6 +134,8 @@ const paddingByDisplay: Record<DisplaySize, string> = {
 };
 
 const hoverScaleByDisplay: Record<DisplaySize, string> = {
+  heroXX: "group-hover:scale-[1.08]",
+  heroX: "group-hover:scale-[1.08]",
   hero: "group-hover:scale-[1.45]",
   largeX: "group-hover:scale-[1.08]",
   large: "group-hover:scale-[1.08]",
@@ -123,6 +147,8 @@ const hoverScaleByDisplay: Record<DisplaySize, string> = {
 };
 
 const containerByDisplay: Record<DisplaySize, string> = {
+  heroXX: "overflow-hidden",
+  heroX: "overflow-hidden",
   hero: "overflow-visible origin-center",
   largeX: "overflow-hidden",
   large: "overflow-hidden",
@@ -142,11 +168,18 @@ export default function Gallery({
   overlay,
   overlayHideAfterRow,
   overlayRight,
+  overlayRightShowFromFirst,
+  overlayRightHideAfterRow,
+  overlayRightShowRef,
   notes,
   rowTitle,
+  rowTitles,
+  compactBottom,
   className = "",
 }: GalleryProps) {
   const secondRowRef = useRef<HTMLDivElement | null>(null);
+  const firstRowRef = useRef<HTMLDivElement | null>(null);
+  const overlayRightHideSentinelRef = useRef<HTMLDivElement | null>(null);
   const overlayHideSentinelRef = useRef<HTMLDivElement | null>(null);
   const [overlayVisible, setOverlayVisible] = useState(true);
   const [overlayRightVisible, setOverlayRightVisible] = useState(false);
@@ -170,7 +203,39 @@ export default function Gallery({
   }, [overlay]);
 
   useEffect(() => {
-    if (!overlayRight || !secondRowRef.current) return;
+    if (!overlayRight) return;
+    const useFirstAndHide = overlayRightShowFromFirst && overlayRightHideAfterRow !== undefined;
+    if (useFirstAndHide) {
+      const first = overlayRightShowRef?.current ?? firstRowRef.current;
+      const hideSentinel = overlayRightHideSentinelRef.current;
+      if (!first || !hideSentinel) return;
+      let firstInView = false;
+      let hideInView = false;
+      const updateVisibility = () => {
+        setOverlayRightVisible(firstInView && !hideInView);
+      };
+      const observerFirst = new IntersectionObserver(
+        ([entry]) => {
+          firstInView = entry.isIntersecting;
+          updateVisibility();
+        },
+        { threshold: 0.2 }
+      );
+      const observerHide = new IntersectionObserver(
+        ([entry]) => {
+          hideInView = entry.isIntersecting;
+          updateVisibility();
+        },
+        { threshold: 0.1 }
+      );
+      observerFirst.observe(first);
+      observerHide.observe(hideSentinel);
+      return () => {
+        observerFirst.disconnect();
+        observerHide.disconnect();
+      };
+    }
+    if (!secondRowRef.current) return;
     const el = secondRowRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => setOverlayRightVisible(entry.isIntersecting),
@@ -178,7 +243,7 @@ export default function Gallery({
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [overlayRight]);
+  }, [overlayRight, overlayRightShowFromFirst, overlayRightHideAfterRow, overlayRightShowRef]);
 
   const rows = useMemo<GalleryRow[]>(() => {
     const result: GalleryRow[] = [];
@@ -226,7 +291,7 @@ export default function Gallery({
       )}
       {overlayRight && (
         <div
-          className={`pointer-events-none fixed right-20 sm:right-32 bottom-[25%] z-20 transition-opacity duration-300 max-w-[12rem] sm:max-w-[14rem] text-right ${
+          className={`pointer-events-none fixed right-20 sm:right-32 top-1/2 -translate-y-1/2 z-20 transition-opacity duration-300 max-w-[14rem] sm:max-w-[18rem] text-right ${
             overlayRightVisible ? "opacity-100" : "opacity-0"
           }`}
           aria-hidden
@@ -246,28 +311,40 @@ export default function Gallery({
         const prevRowNote = notes?.find((n) => n.forRow === rowIndex - 1);
         const prevRowHasNoSpacingBelow = prevRowNote?.noSpacingBelow === true;
         const isLastRow = rowIndex === rows.length - 1;
-        const reduceTop = row.kind === "single" && row.image.reduceTopSpacing;
-        const tightTop = row.kind === "single" && row.image.tightTopSpacing;
+        const reduceTop = (row.kind === "single" && row.image.reduceTopSpacing) || (row.kind === "group" && row.images[0]?.reduceTopSpacing);
+        const compactTop = (row.kind === "single" && row.image.compactTopSpacing) || (row.kind === "group" && row.images[0]?.compactTopSpacing);
+        const minimalTop = (row.kind === "single" && row.image.minimalTopSpacing) || (row.kind === "group" && row.images[0]?.minimalTopSpacing);
+        const tightTop = (row.kind === "single" && row.image.tightTopSpacing) || (row.kind === "group" && row.images[0]?.tightTopSpacing);
+        const tighterTop = (row.kind === "single" && row.image.tighterTopSpacing) || (row.kind === "group" && row.images[0]?.tighterTopSpacing);
         const extraTop = row.kind === "single" && row.image.extraTopSpacing;
         const baseSpacingClass =
           rowIndex === 0
             ? ""
-            : tightTop
-              ? "mt-8 sm:mt-12"
+            : tighterTop
+              ? "-mt-[28rem] sm:-mt-[36rem]"
+              : tightTop
+              ? "-mt-96 sm:-mt-[28rem]"
               : reduceTop
                 ? "mt-24 sm:mt-32"
-                : extraTop
-                  ? "mt-48 sm:mt-64"
-                  : "mt-36 sm:mt-48";
+                : compactTop
+                  ? "mt-12 sm:mt-16"
+                  : minimalTop
+                    ? "mt-6 sm:mt-8"
+                    : extraTop
+                    ? "mt-48 sm:mt-64"
+                    : "mt-36 sm:mt-48";
         const extraGroupSpacingClass =
           previousRow?.kind === "group" && row.kind === "group"
             ? "mt-64 sm:mt-80"
             : "";
+        const prevRowLooserSpacing = prevRowNote?.looserSpacingAfterNote === true;
         let spacingClass =
           rowIndex === 0
             ? ""
             : prevRowHasNoSpacingBelow
-              ? "-mt-8 sm:-mt-10"
+              ? prevRowLooserSpacing
+                ? "-mt-32 sm:-mt-40"
+                : "-mt-96 sm:-mt-[28rem]"
               : extraGroupSpacingClass || baseSpacingClass;
 
         if (
@@ -275,16 +352,21 @@ export default function Gallery({
           row.kind === "single" &&
           previousRow?.kind === "single"
         ) {
-          spacingClass = "mt-4 sm:mt-6";
+          spacingClass = row.image.tightTopSpacing || row.image.tighterTopSpacing ? "-mt-[28rem] sm:-mt-[32rem]" : "mt-4 sm:mt-6";
         }
 
         if (row.kind === "group") {
           const rowNote = notes?.find((n) => n.forRow === rowIndex);
-          const title = rowTitle?.forRow === rowIndex ? rowTitle.text : undefined;
+          const title = rowTitles?.find((t) => t.forRow === rowIndex)?.text ?? (rowTitle?.forRow === rowIndex ? rowTitle.text : undefined);
           return (
             <div
               key={`group-${row.id}-${rowIndex}`}
-              ref={rowIndex === 1 ? secondRowRef : rowIndex === overlayHideSentinelRowIndex ? overlayHideSentinelRef : undefined}
+              ref={(el) => {
+                if (rowIndex === 0 && overlayRightShowFromFirst) firstRowRef.current = el;
+                if (rowIndex === 1 && !overlayRightShowFromFirst) secondRowRef.current = el;
+                if (rowIndex === overlayRightHideAfterRow) overlayRightHideSentinelRef.current = el;
+                if (rowIndex === overlayHideSentinelRowIndex) overlayHideSentinelRef.current = el;
+              }}
               role="listitem"
               className={`max-w-5xl mx-auto w-full ${spacingClass} scroll-mt-20 sm:scroll-mt-24 snap-start`}
             >
@@ -350,29 +432,37 @@ export default function Gallery({
         const widthClass = widthByDisplay[display];
         const basePadding = paddingByDisplay[display];
         const isCoverImage = row.image.caption?.toLowerCase() === "cover";
-        const paddingClass =
+        let paddingClass =
           rowIndex === 0
             ? `${basePadding.replace("py-", "pt-0 pb-")} ${isCoverImage ? "pt-12 sm:pt-20" : ""}`
             : prevRowHasNoSpacingBelow
               ? basePadding.replace("py-", "pt-0 pb-")
               : basePadding;
+        if (isLastRow && compactBottom && row.kind === "single") {
+          paddingClass = paddingClass.replace(/\bpb-\S+/g, "pb-0");
+        }
         const hoverClass = hoverScaleByDisplay[display];
         const containerClass = containerByDisplay[display];
-        const variant = display === "hero" ? "hero" : "single";
+        const variant = display === "hero" || display === "heroX" || display === "heroXX" ? "hero" : "single";
         const rowNote = notes?.find((n) => n.forRow === rowIndex);
         const isFirstRowWithOverlay = overlay && rowIndex === 0;
 
         return (
           <div
             key={`single-${rowIndex}`}
-            ref={rowIndex === 1 ? secondRowRef : rowIndex === overlayHideSentinelRowIndex ? overlayHideSentinelRef : undefined}
+            ref={(el) => {
+              if (rowIndex === 0 && overlayRightShowFromFirst) firstRowRef.current = el;
+              if (rowIndex === 1 && !overlayRightShowFromFirst) secondRowRef.current = el;
+              if (rowIndex === overlayRightHideAfterRow) overlayRightHideSentinelRef.current = el;
+              if (rowIndex === overlayHideSentinelRowIndex) overlayHideSentinelRef.current = el;
+            }}
             role="listitem"
-            className={`${widthClass} ${paddingClass} ${spacingClass} scroll-mt-20 sm:scroll-mt-24 snap-start ${isFirstRowWithOverlay ? "pt-[20vh]" : ""}`}
+            className={`${widthClass} ${paddingClass} ${spacingClass} scroll-mt-20 sm:scroll-mt-24 snap-start ${isFirstRowWithOverlay && overlayHideAfterRow !== 0 ? "pt-[20vh]" : ""}`}
           >
             <GalleryItem
               image={row.image}
               variant={variant}
-              hoverScaleClass={hoverClass}
+              hoverScaleClass={row.image.noHover ? "group-hover:scale-100" : hoverClass}
               containerClass={containerClass}
             />
             {rowNote && (
@@ -416,7 +506,7 @@ export default function Gallery({
           </div>
         );
       })}
-      <div className="h-2 sm:h-4" aria-hidden="true" />
+      <div className={compactBottom ? "h-0" : "h-2 sm:h-4"} aria-hidden="true" />
     </div>
   );
 }

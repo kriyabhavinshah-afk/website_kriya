@@ -7,14 +7,24 @@ export interface GalleryImage {
   src: string;
   alt: string;
   caption?: string;
-  display?: "hero" | "largeX" | "large" | "largePlus" | "medium" | "mediumNarrow" | "small" | "compact";
+  /** Justify caption text (for grid tiles) */
+  captionJustify?: boolean;
+  display?: "heroXX" | "heroX" | "hero" | "largeX" | "large" | "largePlus" | "medium" | "mediumNarrow" | "small" | "compact";
   group?: string;
   /** Reduce top spacing for this row (useful for images that feel too far below the previous) */
   reduceTopSpacing?: boolean;
   /** Tight top spacing for this row (useful for pulling two rows closer) */
   tightTopSpacing?: boolean;
+  /** Extra-tight top spacing (pull rows much closer) */
+  tighterTopSpacing?: boolean;
+  /** Compact top spacing (smaller than reduce, between reduce and tight) */
+  compactTopSpacing?: boolean;
+  /** Minimal top spacing (smallest positive gap) */
+  minimalTopSpacing?: boolean;
   /** Extra top spacing for this row (adds more gap above, first image position unchanged) */
   extraTopSpacing?: boolean;
+  /** Disable hover scale effect on this image */
+  noHover?: boolean;
 }
 
 export type GalleryLayout = "default" | "editorial";
@@ -38,6 +48,9 @@ export interface Project {
   /** Row index (0-based) at which the left overlay title hides. Default: 3 or 2 depending on gallery length. */
   overlayHideAfterRow?: number;
   galleryOverlayRight?: { line1: string; line2: string };
+  /** Show right overlay from first image; hide after this row index (e.g. 2 = after second image) */
+  overlayRightShowFromFirst?: boolean;
+  overlayRightHideAfterRow?: number;
   galleryNotes?: {
     forRow: number;
     header: string;
@@ -51,9 +64,13 @@ export interface Project {
     extraSpacing?: boolean;
     /** Remove bottom spacing below the note */
     noSpacingBelow?: boolean;
+    /** Slightly more space between note and next image (when noSpacingBelow) */
+    looserSpacingAfterNote?: boolean;
     fontStyle?: "note-image" | "note-muted";
   }[];
   galleryRowTitle?: { forRow: number; text: string };
+  /** Multiple row titles; forRow is Gallery row index */
+  galleryRowTitles?: { forRow: number; text: string }[];
   /** Optional title for the 3-tile video row (e.g. World of Hyatt "OOH - Subway Activation") */
   videoRowTitle?: string;
   /** Optional note/caption below the 3-tile video row */
@@ -66,8 +83,14 @@ export interface Project {
   projectLayout?: "hyatt";
   /** Optional phone-frame carousel (e.g. Instagram slides); shown above gallery when set */
   phoneCarousel?: { images: { src: string; alt: string }[] };
+  /** Optional 7-image mood board; shown after the first gallery image when set */
+  moodboard?: string[];
   credits?: string;
   externalLinks?: { label: string; url: string }[];
+  /** Minimal space between last gallery image and footer */
+  compactBottom?: boolean;
+  /** Custom page background color (e.g. "#ffffff") */
+  pageBackgroundColor?: string;
 }
 
 export const siteConfig = {
@@ -377,7 +400,15 @@ export const projects: Project[] = [
       line1: "Sukoon",
       line2: "A Luxury Interior Brand.",
     },
+    galleryOverlayRight: {
+      line1: "This project explores the creation of a luxury linen bedding brand from concept to execution.",
+      line2: "I developed a responsible supply chain strategy to align craftsmanship, sustainability, and material integrity.",
+    },
+    overlayRightShowFromFirst: true,
+    overlayRightHideAfterRow: 2,
     overlayHideAfterRow: 2,
+    compactBottom: true,
+    pageBackgroundColor: "#ffffff",
     galleryNotes: [
       {
         forRow: 1,
@@ -390,6 +421,7 @@ export const projects: Project[] = [
         fontStyle: "note-image",
         extraSpacing: true,
         noSpacingBelow: true,
+        looserSpacingAfterNote: true,
       },
     ],
     credits: "Kriya Shah | Achal Agarwala | Zhiyin Lu | Chelsea Washington",
@@ -409,38 +441,44 @@ export const projects: Project[] = [
       {
         src: "/projects/sukoon/3.png",
         alt: "Sukoon image 3",
-        display: "largeX",
-        reduceTopSpacing: true,
+        display: "heroX",
+        tightTopSpacing: true,
+        noHover: true,
       },
       {
-        src: "/projects/sukoon/4.jpg",
+        src: "/projects/sukoon/sukoon-4.png",
         alt: "Sukoon image 4",
-        display: "medium",
-        tightTopSpacing: true,
+        display: "heroXX",
+        tighterTopSpacing: true,
+        noHover: true,
+      },
+      {
+        src: "/projects/sukoon/sukoon-4b.png",
+        alt: "Sukoon market insights",
+        display: "heroXX",
+        tighterTopSpacing: true,
+        noHover: true,
       },
       {
         src: "/projects/sukoon/5.png",
         alt: "Sukoon image 5",
-        display: "largePlus",
-        reduceTopSpacing: true,
+        display: "heroX",
+        tighterTopSpacing: true,
+        noHover: true,
       },
       {
-        src: "/projects/sukoon/6.jpg",
+        src: "/projects/sukoon/sukoon-6.png",
         alt: "Sukoon image 6",
-        display: "medium",
-        reduceTopSpacing: true,
+        display: "heroXX",
+        tightTopSpacing: true,
+        noHover: true,
       },
       {
         src: "/projects/sukoon/7.png",
         alt: "Sukoon image 7",
-        display: "largePlus",
-        reduceTopSpacing: true,
-      },
-      {
-        src: "/projects/sukoon/8.jpg",
-        alt: "Sukoon image 8",
-        display: "largePlus",
-        reduceTopSpacing: true,
+        display: "heroXX",
+        tightTopSpacing: true,
+        noHover: true,
       },
     ],
   },
@@ -537,16 +575,120 @@ export const projects: Project[] = [
       "Shows ability to work across physical and digital experience design",
       "Portfolio piece for luxury, marine, and high-end hospitality categories",
     ],
-    gallery: [
+    galleryOverlay: {
+      line1: "Royal Van Lent",
+      line2: "Summer Yacht Experience",
+    },
+    moodboard: [
+      "/projects/royal-van-lent-voyage/moodboard2/mood-1.png",
+      "/projects/royal-van-lent-voyage/moodboard2/mood-2.png",
+      "/projects/royal-van-lent-voyage/moodboard2/mood-3.png",
+      "/projects/royal-van-lent-voyage/moodboard2/mood-4.png",
+      "/projects/royal-van-lent-voyage/moodboard2/mood-5.png",
+      "/projects/royal-van-lent-voyage/moodboard2/mood-6.png",
+      "/projects/royal-van-lent-voyage/moodboard2/mood-7.png",
+    ],
+    galleryOverlayRight: {
+      line1: "Royal Van Lent Voyage, a seasonal ultra-luxury Sailing experience through the Mediterranean,",
+      line2: "Blending heritage yachting with modern wellness, cuisine, and culture—designed to attract a new generation of elite\u00A0travelers.",
+    },
+    overlayRightShowFromFirst: true,
+    overlayRightHideAfterRow: 3,
+    galleryNotes: [
       {
-        src: "/placeholder.png",
-        alt: "Royal Van Lent Voyage concept",
-        caption: "Experience concept and key visual",
+        forRow: 1,
+        header: "",
+        lines: [
+          "An 118-meter hydrogen-powered superyacht designed for extended luxury living at sea. Accommodating 30 guests, it integrates private decks, immersive lounges, and expansive ocean access.",
+        ],
+        alignToImage: true,
+        fontStyle: "note-muted",
       },
       {
-        src: "/placeholder.png",
-        alt: "Guest journey and touchpoints",
-        caption: "Guest journey and touchpoint mapping",
+        forRow: 2,
+        header: "",
+        lines: [
+          "Daylight Escape",
+          "A refined day at sea crafted for relaxation, style, and seamless indulgence.",
+        ],
+        alignToImage: true,
+        fontStyle: "note-muted",
+      },
+    ],
+    galleryRowTitle: { forRow: 4, text: "" },
+    galleryRowTitles: [
+      { forRow: 1, text: "Selected Yacht : Project 821" },
+      { forRow: 2, text: "Packages Offered" },
+    ],
+    credits: "",
+    gallery: [
+      {
+        src: "/projects/royal-van-lent-voyage/cover.png",
+        alt: "Royal Van Lent Voyage",
+        caption: "Cover",
+        display: "small",
+      },
+      {
+        src: "/projects/royal-van-lent-voyage/hero-2.png",
+        alt: "Royal Van Lent hero 2",
+        display: "heroX",
+        noHover: true,
+      },
+      {
+        src: "/projects/royal-van-lent-voyage/tile-1.png",
+        alt: "Royal Van Lent tile 1",
+        display: "small",
+        group: "grid-tile",
+        minimalTopSpacing: true,
+      },
+      {
+        src: "/projects/royal-van-lent-voyage/tile-2.png",
+        alt: "Royal Van Lent tile 2",
+        display: "small",
+        group: "grid-tile",
+      },
+      {
+        src: "/projects/royal-van-lent-voyage/tile-3.png",
+        alt: "Royal Van Lent tile 3",
+        display: "small",
+        group: "grid-tile",
+      },
+      {
+        src: "/projects/royal-van-lent-voyage/packages-daylight.jpg",
+        alt: "Daylight",
+        display: "small",
+        group: "packages-tile",
+        minimalTopSpacing: true,
+      },
+      {
+        src: "/projects/royal-van-lent-voyage/packages-escape.jpg",
+        alt: "Escape",
+        display: "small",
+        group: "packages-tile",
+      },
+      {
+        src: "/projects/royal-van-lent-voyage/packages-refined.jpg",
+        alt: "A refined day at sea",
+        display: "small",
+        group: "packages-tile",
+      },
+      {
+        src: "/projects/royal-van-lent-voyage/bottom-1.jpg",
+        alt: "Royal Van Lent",
+        display: "heroX",
+        minimalTopSpacing: true,
+      },
+      {
+        src: "/projects/royal-van-lent-voyage/bottom-2.png",
+        alt: "Royal Van Lent",
+        display: "heroX",
+        tighterTopSpacing: true,
+      },
+      {
+        src: "/projects/royal-van-lent-voyage/bottom-3.png",
+        alt: "Royal Van Lent",
+        display: "heroX",
+        tighterTopSpacing: true,
       },
     ],
   },

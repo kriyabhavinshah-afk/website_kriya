@@ -9,6 +9,7 @@ import Image from "next/image";
 import Container from "@/components/Container";
 import Gallery from "@/components/Gallery";
 import LeftOverlayHideAfter from "@/components/LeftOverlayHideAfter";
+import RoyalVanLentMoodboardLayout from "@/components/RoyalVanLentMoodboardLayout";
 import NextPrevNav from "@/components/NextPrevNav";
 import PhoneCarousel from "@/components/PhoneCarousel";
 import AutoPlayVideoRow from "@/components/AutoPlayVideoRow";
@@ -45,11 +46,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const prevProject = getPrevProject(slug);
 
   return (
+    <div
+      className="min-h-screen"
+      style={project.pageBackgroundColor ? { backgroundColor: project.pageBackgroundColor } : undefined}
+    >
     <article>
       {/* Gallery: when phoneCarousel set = first image (posters), then carousel, then rest; else full gallery */}
       {project.gallery.length > 0 || (project.phoneCarousel?.images.length ?? 0) > 0 ? (
         <section
-          className={`relative z-10 pt-2 sm:pt-4 ${project.projectLayout === "hyatt" ? "pb-0" : "pb-16 sm:pb-24"}`}
+          className={`relative z-10 pt-2 sm:pt-4 ${project.projectLayout === "hyatt" || project.compactBottom ? "pb-0" : "pb-16 sm:pb-24"}`}
           aria-labelledby="gallery-heading"
         >
           <Container>
@@ -150,9 +155,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   </div>
                 )}
               </>
+            ) : project.moodboard && project.gallery.length > 0 ? (
+              <RoyalVanLentMoodboardLayout project={project} />
             ) : (
               project.gallery.length > 0 && (
-                <Gallery images={project.gallery} overlay={project.galleryOverlay} overlayHideAfterRow={project.overlayHideAfterRow} overlayRight={project.galleryOverlayRight} notes={project.galleryNotes} rowTitle={project.galleryRowTitle} />
+                <Gallery images={project.gallery} overlay={project.galleryOverlay} overlayHideAfterRow={project.overlayHideAfterRow} overlayRight={project.galleryOverlayRight} overlayRightShowFromFirst={project.overlayRightShowFromFirst} overlayRightHideAfterRow={project.overlayRightHideAfterRow} notes={project.galleryNotes} rowTitle={project.galleryRowTitle} compactBottom={project.compactBottom} />
               )
             )}
           </Container>
@@ -160,7 +167,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       ) : null}
 
       {/* Project info and nav */}
-      <section className="py-12 sm:py-16 bg-background border-t border-border">
+      <section className={`${project.compactBottom ? "pt-4 sm:pt-6 pb-12 sm:pb-16" : "py-12 sm:py-16"} bg-background border-t border-border`}>
         <Container>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-8">
             <div>
@@ -179,5 +186,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </Container>
       </section>
     </article>
+    </div>
   );
 }

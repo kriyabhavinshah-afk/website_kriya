@@ -15,10 +15,13 @@ export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isProjectPage = pathname.startsWith("/work/");
+  const isHomePage = pathname === "/";
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-colors ${isProjectPage ? "bg-white" : "bg-black"}`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors ${
+        isProjectPage ? "bg-white" : isHomePage ? "bg-black/50" : "bg-black"
+      }`}
       role="banner"
       aria-label="Site header"
     >
