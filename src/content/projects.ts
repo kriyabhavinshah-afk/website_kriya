@@ -60,6 +60,8 @@ export interface Project {
     bigger?: boolean;
     blacker?: boolean;
     moreSpacing?: boolean;
+    /** Tiny top spacing above note (e.g. mt-3) */
+    tinyTopSpacing?: boolean;
     /** Extra-large top spacing between image and note */
     extraSpacing?: boolean;
     /** Remove bottom spacing below the note */
@@ -603,16 +605,7 @@ export const projects: Project[] = [
         ],
         alignToImage: true,
         fontStyle: "note-muted",
-      },
-      {
-        forRow: 3,
-        header: "",
-        lines: [
-          "Daylight Escape",
-          "A refined day at sea crafted for relaxation, style, and seamless indulgence.",
-        ],
-        alignToImage: true,
-        fontStyle: "note-muted",
+        tinyTopSpacing: true,
       },
     ],
     galleryRowTitle: { forRow: 4, text: "" },
@@ -655,20 +648,29 @@ export const projects: Project[] = [
       },
       {
         src: "/projects/royal-van-lent-voyage/packages-daylight.jpg",
-        alt: "Daylight",
+        alt: "Daylight Escape",
+        caption:
+          "Daylight Escape: A full day on board with all-inclusive dining, spa access, and private butler service.",
+        captionJustify: true,
         display: "small",
         group: "packages-tile",
         minimalTopSpacing: true,
       },
       {
         src: "/projects/royal-van-lent-voyage/packages-escape.jpg",
-        alt: "Escape",
+        alt: "Seas the Weekend",
+        caption:
+          "Seas the Weekend: A 3-day, 2-night yacht retreat with onboard entertainment, wellness, and curated cultural moments.",
+        captionJustify: true,
         display: "small",
         group: "packages-tile",
       },
       {
         src: "/projects/royal-van-lent-voyage/packages-refined.jpg",
-        alt: "A refined day at sea",
+        alt: "The Grand Voyage",
+        caption:
+          "The Grand Voyage: A six-day VIP itinerary across six cities, blending dining, cruising, and once-in-a-lifetime experiences.",
+        captionJustify: true,
         display: "small",
         group: "packages-tile",
       },

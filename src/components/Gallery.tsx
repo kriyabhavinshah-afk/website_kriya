@@ -16,6 +16,8 @@ interface GalleryProps {
   /** Optional external ref for show sentinel (e.g. mood board section); when set, used instead of firstRowRef */
   overlayRightShowRef?: React.RefObject<HTMLDivElement | null>;
   compactBottom?: boolean;
+  /** Tighter padding and note margins across the gallery */
+  compactSpacing?: boolean;
   notes?: {
     forRow: number;
     header: string;
@@ -25,6 +27,7 @@ interface GalleryProps {
     bigger?: boolean;
     blacker?: boolean;
     moreSpacing?: boolean;
+    tinyTopSpacing?: boolean;
     extraSpacing?: boolean;
     noSpacingBelow?: boolean;
     looserSpacingAfterNote?: boolean;
@@ -96,11 +99,22 @@ function GalleryItem({
       </div>
       {variant === "grid" && image.caption && (
         <p
-          className={`font-open-sans text-xs sm:text-sm text-foreground/70 font-light ${
+          className={`font-open-sans text-xs sm:text-sm text-foreground/70 ${
             image.captionJustify ? "text-justify" : "text-center"
           }`}
         >
-          {image.caption}
+          {image.caption.includes(": ") ? (
+            <>
+              <span className="font-semibold text-foreground/90">
+                {image.caption.slice(0, image.caption.indexOf(": "))}
+              </span>
+              <span className="font-light">
+                {": " + image.caption.slice(image.caption.indexOf(": ") + 2)}
+              </span>
+            </>
+          ) : (
+            <span className="font-light">{image.caption}</span>
+          )}
         </p>
       )}
     </figure>
@@ -175,6 +189,7 @@ export default function Gallery({
   rowTitle,
   rowTitles,
   compactBottom,
+  compactSpacing,
   className = "",
 }: GalleryProps) {
   const secondRowRef = useRef<HTMLDivElement | null>(null);
@@ -371,11 +386,11 @@ export default function Gallery({
               className={`max-w-5xl mx-auto w-full ${spacingClass} scroll-mt-20 sm:scroll-mt-24 snap-start`}
             >
               {title && (
-                <p className="font-open-sans text-xs sm:text-sm text-foreground/70 tracking-[0.2em] uppercase font-light mb-8 text-center">
+                <p className={`font-open-sans text-xs sm:text-sm text-foreground/70 tracking-[0.2em] uppercase font-light text-center ${compactSpacing ? "mb-6" : "mb-8"}`}>
                   {title}
                 </p>
               )}
-              <div className="grid gap-6 sm:grid-cols-3">
+              <div className={`grid sm:grid-cols-3 ${compactSpacing ? "gap-4" : "gap-6"}`}>
                 {row.images.map((image, imageIndex) => (
                   <GalleryItem
                     key={`${row.id}-${imageIndex}`}
@@ -389,8 +404,8 @@ export default function Gallery({
               {rowNote && (
                 <div
                   className={`mx-auto text-center ${
-                    rowNote.extraSpacing ? "mt-32 sm:mt-44" : rowNote.moreSpacing ? "mt-6 sm:mt-8" : "mt-0"
-                  } ${rowNote.noSpacingBelow ? "mb-0" : "mb-20 sm:mb-28"} ${rowNote.alignToImage ? "max-w-5xl text-justify px-4" : "max-w-md"}`}
+                    rowNote.extraSpacing ? "mt-32 sm:mt-44" : rowNote.moreSpacing ? "mt-6 sm:mt-8" : rowNote.tinyTopSpacing ? "mt-3 sm:mt-4" : "mt-0"
+                  } ${rowNote.noSpacingBelow ? "mb-0" : compactSpacing ? "mb-12 sm:mb-16" : "mb-20 sm:mb-28"} ${rowNote.alignToImage ? "max-w-5xl text-justify px-4" : "max-w-md"}`}
                 >
                   {rowNote.header && (
                     <p
@@ -430,7 +445,12 @@ export default function Gallery({
 
         const display = (row.image.display ?? "large") as DisplaySize;
         const widthClass = widthByDisplay[display];
-        const basePadding = paddingByDisplay[display];
+        const basePadding =
+          compactSpacing && (display === "heroXX" || display === "heroX" || display === "hero")
+            ? "py-4"
+            : compactSpacing && ["largeX", "large", "largePlus", "medium", "mediumNarrow"].includes(display)
+              ? "py-3"
+              : paddingByDisplay[display];
         const isCoverImage = row.image.caption?.toLowerCase() === "cover";
         let paddingClass =
           rowIndex === 0
@@ -468,8 +488,8 @@ export default function Gallery({
             {rowNote && (
               <div
                 className={`mx-auto text-center ${
-                  rowNote.extraSpacing ? "mt-32 sm:mt-44" : rowNote.moreSpacing ? "mt-6 sm:mt-8" : "mt-0"
-                } ${rowNote.noSpacingBelow ? "mb-0" : "mb-20 sm:mb-28"} ${rowNote.alignToImage ? "max-w-5xl text-justify px-4" : "max-w-md"}`}
+                  rowNote.extraSpacing ? "mt-32 sm:mt-44" : rowNote.moreSpacing ? "mt-6 sm:mt-8" : rowNote.tinyTopSpacing ? "mt-3 sm:mt-4" : "mt-0"
+                } ${rowNote.noSpacingBelow ? "mb-0" : compactSpacing ? "mb-12 sm:mb-16" : "mb-20 sm:mb-28"} ${rowNote.alignToImage ? "max-w-5xl text-justify px-4" : "max-w-md"}`}
               >
                 {rowNote.header && (
                   <p
