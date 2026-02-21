@@ -589,14 +589,14 @@ export const projects: Project[] = [
       "/projects/royal-van-lent-voyage/moodboard2/mood-7.png",
     ],
     galleryOverlayRight: {
-      line1: "Royal Van Lent Voyage, a seasonal ultra-luxury Sailing experience through the Mediterranean,",
-      line2: "Blending heritage yachting with modern wellness, cuisine, and culture—designed to attract a new generation of elite\u00A0travelers.",
+      line1: "Royal Van Lent Voyage is a seasonal ultra-luxury sailing experience across the Mediterranean,",
+      line2: "blending heritage yachting with modern wellness, cuisine, and culture for a new generation of elite travelers.",
     },
     overlayRightShowFromFirst: true,
     overlayRightHideAfterRow: 3,
     galleryNotes: [
       {
-        forRow: 1,
+        forRow: 2,
         header: "",
         lines: [
           "An 118-meter hydrogen-powered superyacht designed for extended luxury living at sea. Accommodating 30 guests, it integrates private decks, immersive lounges, and expansive ocean access.",
@@ -605,7 +605,7 @@ export const projects: Project[] = [
         fontStyle: "note-muted",
       },
       {
-        forRow: 2,
+        forRow: 3,
         header: "",
         lines: [
           "Daylight Escape",
