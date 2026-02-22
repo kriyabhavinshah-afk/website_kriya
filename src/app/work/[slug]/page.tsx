@@ -13,6 +13,7 @@ import RoyalVanLentMoodboardLayout from "@/components/RoyalVanLentMoodboardLayou
 import NextPrevNav from "@/components/NextPrevNav";
 import PhoneCarousel from "@/components/PhoneCarousel";
 import AutoPlayVideoRow from "@/components/AutoPlayVideoRow";
+import ProjectVideo from "@/components/ProjectVideo";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -95,6 +96,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 {project.galleryOverlay && (
                   <LeftOverlayHideAfter overlay={project.galleryOverlay} />
                 )}
+                {/* Single video after carousel (e.g. process book) — autoplay, no controls; tap to enable sound */}
+                {project.projectVideo && (
+                  <ProjectVideo src={project.projectVideo} />
+                )}
                 {/* Note section right after carousel (first note was forRow 2 in full gallery) */}
                 {project.galleryNotes?.find((n) => n.forRow === 2) && (() => {
                   const note = project.galleryNotes!.find((n) => n.forRow === 2)!;
@@ -159,7 +164,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <RoyalVanLentMoodboardLayout project={project} />
             ) : (
               project.gallery.length > 0 && (
-                <Gallery images={project.gallery} overlay={project.galleryOverlay} overlayHideAfterRow={project.overlayHideAfterRow} overlayRight={project.galleryOverlayRight} overlayRightShowFromFirst={project.overlayRightShowFromFirst} overlayRightHideAfterRow={project.overlayRightHideAfterRow} notes={project.galleryNotes} rowTitle={project.galleryRowTitle} compactBottom={project.compactBottom} />
+                <Gallery images={project.gallery} overlay={project.galleryOverlay} overlayLeftClass={project.overlayLeftClass} overlayHideAfterRow={project.overlayHideAfterRow} overlayRight={project.galleryOverlayRight} overlayRightShowFromFirst={project.overlayRightShowFromFirst} overlayRightHideAfterRow={project.overlayRightHideAfterRow} notes={project.galleryNotes} rowTitle={project.galleryRowTitle} compactBottom={project.compactBottom} />
               )
             )}
           </Container>
@@ -167,7 +172,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       ) : null}
 
       {/* Project info and nav */}
-      <section className={`${project.compactBottom ? "pt-4 sm:pt-6 pb-12 sm:pb-16" : "py-12 sm:py-16"} bg-background border-t border-border`}>
+      <section className="pt-0 sm:pt-2 pb-12 sm:pb-16 bg-background border-t border-border">
         <Container>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-8">
             <div>

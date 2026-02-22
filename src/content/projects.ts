@@ -45,6 +45,8 @@ export interface Project {
   gallery: GalleryImage[];
   galleryLayout?: GalleryLayout;
   galleryOverlay?: { line1: string; line2: string };
+  /** Optional left position override for overlay (e.g. "left-16 sm:left-24" to move right) */
+  overlayLeftClass?: string;
   /** Row index (0-based) at which the left overlay title hides. Default: 3 or 2 depending on gallery length. */
   overlayHideAfterRow?: number;
   galleryOverlayRight?: { line1: string; line2: string };
@@ -85,6 +87,8 @@ export interface Project {
   projectLayout?: "hyatt";
   /** Optional phone-frame carousel (e.g. Instagram slides); shown above gallery when set */
   phoneCarousel?: { images: { src: string; alt: string }[] };
+  /** Optional single video shown after the carousel (when phoneCarousel is set) */
+  projectVideo?: string;
   /** Optional 7-image mood board; shown after the first gallery image when set */
   moodboard?: string[];
   credits?: string;
@@ -596,6 +600,7 @@ export const projects: Project[] = [
     },
     overlayRightShowFromFirst: true,
     overlayRightHideAfterRow: 3,
+    compactBottom: true,
     galleryNotes: [
       {
         forRow: 2,
@@ -691,6 +696,41 @@ export const projects: Project[] = [
         alt: "Royal Van Lent",
         display: "heroX",
         tighterTopSpacing: true,
+      },
+    ],
+  },
+  {
+    slug: "sonic-at-starlight",
+    title: "Sonic at Starlight",
+    descriptor: "",
+    year: "",
+    tags: [],
+    role: "",
+    context: "",
+    insight: "",
+    strategy: [],
+    creativeDirection: [],
+    deliverables: [],
+    impact: [],
+    galleryOverlay: {
+      line1: "Sonic",
+      line2: "At Starlight",
+    },
+    overlayLeftClass: "left-16 sm:left-24",
+    phoneCarousel: {
+      images: [
+        { src: "/projects/sonic-at-starlight/instagram/carousel-1.png", alt: "Sonic at Starlight" },
+        { src: "/projects/sonic-at-starlight/instagram/carousel-2.png", alt: "Sonic at Starlight" },
+      ],
+    },
+    projectVideo: "/projects/sonic-at-starlight/process-book.mp4",
+    credits: "",
+    gallery: [
+      {
+        src: "/projects/sonic-at-starlight/cover.jpeg",
+        alt: "Sonic at Starlight",
+        caption: "Cover",
+        display: "small",
       },
     ],
   },

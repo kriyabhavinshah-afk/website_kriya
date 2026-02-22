@@ -7,6 +7,8 @@ import type { GalleryImage } from "@/content/projects";
 interface GalleryProps {
   images: GalleryImage[];
   overlay?: { line1: string; line2: string };
+  /** Override left position class for overlay (e.g. left-16 sm:left-24) */
+  overlayLeftClass?: string;
   overlayHideAfterRow?: number;
   overlayRight?: { line1: string; line2: string };
   /** Show right overlay when first row is in view (default: second row) */
@@ -180,6 +182,7 @@ type GalleryRow =
 export default function Gallery({
   images,
   overlay,
+  overlayLeftClass,
   overlayHideAfterRow,
   overlayRight,
   overlayRightShowFromFirst,
@@ -289,7 +292,7 @@ export default function Gallery({
     <div className={`relative ${className}`} role="list">
       {overlay && (
         <div
-          className={`pointer-events-none fixed left-8 sm:left-16 top-1/2 -translate-y-1/2 z-20 transition-opacity duration-300 max-w-[14rem] sm:max-w-[16rem] ${
+          className={`pointer-events-none fixed top-1/2 -translate-y-1/2 z-20 transition-opacity duration-300 max-w-[14rem] sm:max-w-[16rem] ${overlayLeftClass ?? "left-8 sm:left-16"} ${
             overlayVisible ? "opacity-100" : "opacity-0"
           }`}
           aria-hidden
