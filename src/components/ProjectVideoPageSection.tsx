@@ -27,6 +27,7 @@ export default function ProjectVideoPageSection({ project }: { project: Project 
   const [overlaysVisible, setOverlaysVisible] = useState(true);
   const [rightOverlayVisible, setRightOverlayVisible] = useState(true);
   const [awardVisible, setAwardVisible] = useState(true);
+  const [carouselNoteVisible, setCarouselNoteVisible] = useState(false);
   const gallerySentinelRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const coverRef = useRef<HTMLDivElement>(null);
@@ -51,12 +52,25 @@ export default function ProjectVideoPageSection({ project }: { project: Project 
   useEffect(() => {
     const el = carouselRef.current;
     if (!el) return;
-    const observer = new IntersectionObserver(
+    const overlayObserver = new IntersectionObserver(
       ([entry]) => setOverlaysVisible(!entry.isIntersecting),
       { rootMargin: "0px 0px 200px 0px", threshold: 0 }
     );
-    observer.observe(el);
-    return () => observer.disconnect();
+    overlayObserver.observe(el);
+
+    const handleScroll = () => {
+      const rect = el.getBoundingClientRect();
+      const entering = rect.top < window.innerHeight * 0.8;
+      const pastBottom = rect.bottom < window.innerHeight * 0.3;
+      setCarouselNoteVisible(entering && !pastBottom);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      overlayObserver.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -113,6 +127,20 @@ export default function ProjectVideoPageSection({ project }: { project: Project 
         >
           <p className="font-open-sans text-xs sm:text-sm text-foreground/80 leading-relaxed tracking-wide">
             {project.galleryOverlayRight.line1}
+          </p>
+        </div>
+      )}
+
+      {/* Carousel note overlay */}
+      {project.carouselNote && (
+        <div
+          className={`pointer-events-none fixed right-16 sm:right-24 top-1/2 -translate-y-1/2 z-20 max-w-[13rem] sm:max-w-[15rem] text-right transition-opacity duration-500 ${
+            carouselNoteVisible ? "opacity-100" : "opacity-0"
+          }`}
+          aria-hidden
+        >
+          <p className="font-open-sans text-xs sm:text-sm text-foreground/80 leading-relaxed tracking-wide">
+            {project.carouselNote}
           </p>
         </div>
       )}

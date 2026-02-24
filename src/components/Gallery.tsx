@@ -391,7 +391,15 @@ export default function Gallery({
           row.kind === "single" &&
           previousRow?.kind === "single"
         ) {
-          spacingClass = row.image.tightTopSpacing || row.image.tighterTopSpacing ? "-mt-[28rem] sm:-mt-[32rem]" : "mt-72 sm:mt-[22.5rem]";
+          spacingClass = row.image.tightTopSpacing || row.image.tighterTopSpacing
+            ? "-mt-[28rem] sm:-mt-[32rem]"
+            : minimalTop
+              ? "mt-4 sm:mt-6"
+              : reduceTop
+                ? "mt-24 sm:mt-32"
+                : compactTop
+                  ? "mt-12 sm:mt-16"
+                  : "mt-72 sm:mt-[22.5rem]";
         }
 
         if (row.kind === "group") {

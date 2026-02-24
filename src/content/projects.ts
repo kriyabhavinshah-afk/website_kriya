@@ -105,6 +105,8 @@ export interface Project {
   carouselImages?: { src: string; alt: string }[];
   /** Carousel style: "scroll" (default) or "slideshow" (one at a time, crossfade) */
   carouselStyle?: "scroll" | "slideshow";
+  /** Text shown on right side alongside carousel */
+  carouselNote?: string;
   /** Award badge image shown top-right, disappears after scrolling past hero */
   awardBadge?: string;
 }
@@ -248,6 +250,7 @@ export const projects: Project[] = [
         src: "/projects/thom-brown/process-book/thom-brown-process-book-2.jpg",
         alt: "Thom Browne process book spread 2",
         display: "largePlus",
+        minimalTopSpacing: true,
       },
     ],
   },
@@ -499,59 +502,6 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "spill-the-chisme",
-    title: "Spill the Chisme",
-    descriptor: "Gen Z Campaign Concept",
-    year: "2024",
-    tags: [
-      "Integrated Campaign",
-      "Cultural Insight",
-      "Social-First",
-      "Activation",
-    ],
-    role: "Creative Strategist & Campaign Lead",
-    context:
-      "A campaign concept targeting Gen Z audiences around a beverage or lifestyle brand. The brief required cultural resonance, social-first thinking, and a clear path from insight to activation. Chisme (gossip) emerged as a cultural anchor that felt authentic and shareable.",
-    insight:
-      "Gen Z uses gossip as a social currency and a way to build belonging. The act of sharing news, rumors, and updates with friends is less about the content and more about the connection. Brands that can participate in these moments without feeling forced or performative can earn genuine attention.",
-    strategy: [
-      "Anchor the campaign in the cultural truth that sharing is bonding",
-      "Position the brand as the facilitator of these moments, not the hero",
-      "Design for shareability: formats, prompts, and experiences that invite participation",
-      "Create a narrative arc from launch to sustained social presence",
-    ],
-    creativeDirection: [
-      "Use a visual language that feels native to social: candid, textured, low-polish",
-      "Develop a verbal system around phrases that Gen Z already uses and adapts",
-      "Design activations that feel like events or moments, not ads",
-      "Create flexible content buckets that can be iterated across platforms",
-    ],
-    deliverables: [
-      "Campaign strategy and insight deck",
-      "Creative concept and campaign narrative",
-      "Social content framework and key asset concepts",
-      "Activation concept (event, pop-up, or experience)",
-      "Content calendar and launch timeline",
-    ],
-    impact: [
-      "Intended to demonstrate cultural insight and integrated campaign thinking",
-      "Shows ability to translate insight into social-first creative executions",
-      "Portfolio piece for brands targeting younger demographics and social-led campaigns",
-    ],
-    gallery: [
-      {
-        src: "/placeholder.png",
-        alt: "Spill the Chisme campaign hero",
-        caption: "Campaign hero and key visual",
-      },
-      {
-        src: "/placeholder.png",
-        alt: "Spill the Chisme social content",
-        caption: "Social content concepts and formats",
-      },
-    ],
-  },
-  {
     slug: "royal-van-lent-voyage",
     title: "Royal Van Lent Voyage",
     descriptor: "Luxury Experience Concept",
@@ -732,7 +682,7 @@ export const projects: Project[] = [
       line2: "",
     },
     projectVideo: "/projects/sonic-at-starlight/process-book.mp4",
-    credits: "",
+    credits: "Kriya Shah | Jenna Weisenbach | Jack Selden | Fallon Perlino",
     gallery: [
       {
         src: "/projects/sonic-at-starlight/cover.jpeg",
@@ -824,7 +774,8 @@ export const projects: Project[] = [
       { src: "/projects/marc-jacobs/5-3.png", alt: "Marc Jacobs" },
     ],
     carouselStyle: "slideshow",
-    credits: "",
+    carouselNote: "Pop-up stores launch at LAX, CLT, and ORD, bringing the travel-ready Tote to the airport floor.",
+    credits: "Kriya Shah | Halahna Sewer (Photographer)",
     gallery: [
       {
         src: "/projects/marc-jacobs/cover.png",
