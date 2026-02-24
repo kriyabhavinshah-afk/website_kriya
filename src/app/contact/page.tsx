@@ -49,7 +49,7 @@ export default function ContactPage() {
                 rel="noopener noreferrer"
                 className="font-open-sans text-foreground text-lg hover:text-accent transition-colors duration-200"
               >
-                linkedin.com/in/kriyashah
+                linkedin.com/in/kriya-shah21
               </a>
             </div>
 

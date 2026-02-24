@@ -43,14 +43,6 @@ export default function Footer() {
                   Resume
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/reference"
-                  className="text-sm text-muted hover:text-foreground transition-colors"
-                >
-                  Reference
-                </Link>
-              </li>
             </ul>
           </nav>
         </div>

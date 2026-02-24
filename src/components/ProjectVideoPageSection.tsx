@@ -27,7 +27,6 @@ export default function ProjectVideoPageSection({ project }: { project: Project 
   const [overlaysVisible, setOverlaysVisible] = useState(true);
   const [rightOverlayVisible, setRightOverlayVisible] = useState(true);
   const [awardVisible, setAwardVisible] = useState(true);
-  const [carouselNoteVisible, setCarouselNoteVisible] = useState(false);
   const gallerySentinelRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const coverRef = useRef<HTMLDivElement>(null);
@@ -58,19 +57,7 @@ export default function ProjectVideoPageSection({ project }: { project: Project 
     );
     overlayObserver.observe(el);
 
-    const handleScroll = () => {
-      const rect = el.getBoundingClientRect();
-      const entering = rect.top < window.innerHeight * 0.8;
-      const pastBottom = rect.bottom < window.innerHeight * 0.3;
-      setCarouselNoteVisible(entering && !pastBottom);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-
-    return () => {
-      overlayObserver.disconnect();
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => overlayObserver.disconnect();
   }, []);
 
   useEffect(() => {
@@ -131,19 +118,7 @@ export default function ProjectVideoPageSection({ project }: { project: Project 
         </div>
       )}
 
-      {/* Carousel note overlay */}
-      {project.carouselNote && (
-        <div
-          className={`pointer-events-none fixed right-16 sm:right-24 top-1/2 -translate-y-1/2 z-20 max-w-[13rem] sm:max-w-[15rem] text-right transition-opacity duration-500 ${
-            carouselNoteVisible ? "opacity-100" : "opacity-0"
-          }`}
-          aria-hidden
-        >
-          <p className="font-open-sans text-xs sm:text-sm text-foreground/80 leading-relaxed tracking-wide">
-            {project.carouselNote}
-          </p>
-        </div>
-      )}
+      {/* Carousel note is rendered inline with carousel below */}
 
       {/* Video (before images unless videoAfterGallery) */}
       {project.projectVideo && !project.videoAfterGallery && <ProjectVideo src={project.projectVideo} />}
@@ -213,14 +188,42 @@ export default function ProjectVideoPageSection({ project }: { project: Project 
         </div>
       )}
 
-      {/* Carousel */}
+      {/* Carousel — note is inline so it scrolls with the image */}
       {project.carouselImages && project.carouselImages.length > 0 && (
-        <div className="mt-40 sm:mt-52 mb-16" ref={carouselRef}>
-          {project.carouselStyle === "slideshow" ? (
-            <SlideshowCarousel images={project.carouselImages} interval={1500} />
-          ) : (
-            <AutoScrollCarousel images={project.carouselImages} speed={2.5} />
+        <div
+          className="mt-40 sm:mt-52 mb-16 flex flex-col sm:flex-row sm:items-center sm:justify-center sm:gap-10 lg:gap-12 max-w-5xl mx-auto px-4 sm:px-6 sm:translate-x-8 lg:translate-x-12"
+          ref={carouselRef}
+        >
+          <div className="w-full max-w-2xl flex-shrink-0">
+            {project.carouselStyle === "slideshow" ? (
+              <SlideshowCarousel images={project.carouselImages} interval={1500} />
+            ) : (
+              <AutoScrollCarousel images={project.carouselImages} speed={2.5} />
+            )}
+          </div>
+          {project.carouselNote && (
+            <div
+              className="hidden sm:block flex-shrink-0 w-[13rem] lg:w-[15rem] text-right self-center"
+              aria-hidden
+            >
+              <p className="font-open-sans text-xs sm:text-sm text-foreground/80 leading-relaxed tracking-wide">
+                {project.carouselNote}
+              </p>
+            </div>
           )}
+        </div>
+      )}
+
+      {/* Bottom image (after carousel) */}
+      {project.bottomImage && (
+        <div className="mt-40 sm:mt-52 mb-16 max-w-5xl mx-auto px-4 sm:px-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={project.bottomImage.src}
+            alt={project.bottomImage.alt}
+            className="w-full h-auto"
+            loading="lazy"
+          />
         </div>
       )}
     </>

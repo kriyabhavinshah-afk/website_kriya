@@ -44,16 +44,18 @@ export default function WorkPage() {
                   </Link>
                   <p className="text-muted mt-2">{project.descriptor}</p>
                   <p className="text-sm text-accent mt-2">{project.year}</p>
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs text-muted border border-border px-2 py-1 rounded"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  {project.tags && project.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs text-muted border border-border px-2 py-1 rounded"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </article>
             </AnimatedSection>

@@ -107,19 +107,21 @@ export interface Project {
   carouselStyle?: "scroll" | "slideshow";
   /** Text shown on right side alongside carousel */
   carouselNote?: string;
+  /** Single image shown at the very bottom of the project (after carousel) */
+  bottomImage?: { src: string; alt: string };
   /** Award badge image shown top-right, disappears after scrolling past hero */
   awardBadge?: string;
 }
 
 export const siteConfig = {
   name: "Kriya Shah",
-  title: "Junior Art Director | Brand & Creative Strategist",
+  title: "Art Director | Brand & Creative Strategist",
   oneLiner:
     "I build brand-led campaigns and creative systems through research, concept development, and visual storytelling.",
   heroLine1: "Brand-led campaigns and creative systems.",
   heroLine2: "Research, concept, visual storytelling. Familiar but new.",
-  email: "kriya@example.com",
-  linkedin: "https://linkedin.com/in/kriyashah",
+  email: "kriyabhavinshah@gmail.com",
+  linkedin: "https://www.linkedin.com/in/kriya-shah21",
   location: "Atlanta, GA",
   aboutPreview:
     "I work at the intersection of brand strategy and creative execution. My process starts with research and insight, then moves through concept development into visual systems that feel both considered and alive.",
@@ -129,8 +131,8 @@ export const projects: Project[] = [
   {
     slug: "thom-brown",
     title: "Thom Browne",
-    descriptor: "Brand & Creative Concept",
-    year: "2024",
+    descriptor: "Global Expansion",
+    year: "Winter 2025",
     tags: ["Brand Strategy", "Creative Direction", "Visual Identity"],
     role: "Creative Strategist & Designer",
     context:
@@ -257,8 +259,8 @@ export const projects: Project[] = [
   {
     slug: "world-of-hyatt",
     title: "World of Hyatt",
-    descriptor: "Global Wellness Brand Concept",
-    year: "2024",
+    descriptor: "Marketing Strategy",
+    year: "Spring 2025",
     tags: ["Brand Strategy", "Identity", "Experience Design", "Research"],
     role: "Brand Strategist & Creative Lead",
     context:
@@ -383,8 +385,8 @@ export const projects: Project[] = [
   {
     slug: "sukoon",
     title: "Sukoon",
-    descriptor: "A Luxury Interior Brand",
-    year: "2024",
+    descriptor: "A luxury Interior brand",
+    year: "Winter 2026",
     tags: ["Brand Strategy", "Identity", "Experience Design", "Research"],
     role: "Brand Strategist & Creative Lead",
     context:
@@ -505,7 +507,7 @@ export const projects: Project[] = [
     slug: "royal-van-lent-voyage",
     title: "Royal Van Lent Voyage",
     descriptor: "Luxury Experience Concept",
-    year: "2024",
+    year: "Fall 2025",
     tags: [
       "Luxury Brand DNA",
       "Curated Experience",
@@ -662,9 +664,9 @@ export const projects: Project[] = [
   {
     slug: "sonic-at-starlight",
     title: "Sonic at Starlight",
-    descriptor: "",
-    year: "",
-    tags: [],
+    descriptor: "Marketing Strategy",
+    year: "Fall 2024",
+    tags: ["Marketing Strategy", "Campaign", "Brand"],
     role: "",
     context: "",
     insight: "",
@@ -732,9 +734,9 @@ export const projects: Project[] = [
   {
     slug: "marc-jacobs",
     title: "Marc Jacobs",
-    descriptor: "",
-    year: "",
-    tags: [],
+    descriptor: "Product & Marketing Strategy",
+    year: "Fall 2024",
+    tags: ["Product Strategy", "Marketing Strategy", "Brand"],
     role: "",
     context: "",
     insight: "",
@@ -775,6 +777,7 @@ export const projects: Project[] = [
     ],
     carouselStyle: "slideshow",
     carouselNote: "Pop-up stores launch at LAX, CLT, and ORD, bringing the travel-ready Tote to the airport floor.",
+    bottomImage: { src: "/projects/marc-jacobs/6.jpg", alt: "Marc Jacobs" },
     credits: "Kriya Shah | Halahna Sewer (Photographer)",
     gallery: [
       {
