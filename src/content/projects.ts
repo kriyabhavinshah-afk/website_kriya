@@ -812,17 +812,6 @@ export const projects: Project[] = [
         ],
         alignToImage: true,
         fontStyle: "note-muted",
-      },
-    ],
-    galleryNotes: [
-      {
-        forRow: 2,
-        header: "NOTE",
-        lines: [
-          "Grounded in culture and constant movement, Mycah Matthews, 24, is the campaign's face: a fast rising music star whose edgy style and soulful sound reflect Marc Jacobs' rebellious energy. From NYC to festival stages worldwide, she travels light, lives on the go, and brings a bold, modern presence to every frame.",
-        ],
-        alignToImage: true,
-        fontStyle: "note-muted",
         tinyTopSpacing: true,
       },
     ],
