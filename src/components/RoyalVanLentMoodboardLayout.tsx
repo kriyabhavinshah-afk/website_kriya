@@ -7,18 +7,18 @@ import MoodBoard from "@/components/MoodBoard";
 export default function RoyalVanLentMoodboardLayout({ project }: { project: Project }) {
   const moodBoardRef = useRef<HTMLDivElement | null>(null);
   const galleryRef = useRef<HTMLDivElement | null>(null);
-  const [rightOverlayVisible, setRightOverlayVisible] = useState(true);
+  const [overlaysVisible, setOverlaysVisible] = useState(true);
 
   useEffect(() => {
     const el = galleryRef.current;
-    if (!el || !project.galleryOverlayRight) return;
+    if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => setRightOverlayVisible(!entry.isIntersecting),
+      ([entry]) => setOverlaysVisible(!entry.isIntersecting),
       { threshold: 0.05 }
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [project.galleryOverlayRight]);
+  }, []);
 
   const cover = project.gallery[0];
   const rest = project.gallery.slice(1);
@@ -40,7 +40,9 @@ export default function RoyalVanLentMoodboardLayout({ project }: { project: Proj
       {/* Left overlay */}
       {project.galleryOverlay && (
         <div
-          className="pointer-events-none fixed left-8 sm:left-16 top-1/2 -translate-y-1/2 z-20 max-w-[14rem] sm:max-w-[16rem]"
+          className={`pointer-events-none fixed left-8 sm:left-16 top-1/2 -translate-y-1/2 z-20 max-w-[14rem] sm:max-w-[16rem] transition-opacity duration-500 ${
+            overlaysVisible ? "opacity-100" : "opacity-0"
+          }`}
           aria-hidden
         >
           <p className="font-open-sans text-xl sm:text-2xl font-medium text-foreground/95 tracking-wide leading-snug">
@@ -58,7 +60,7 @@ export default function RoyalVanLentMoodboardLayout({ project }: { project: Proj
       {project.galleryOverlayRight?.line1 && (
         <div
           className={`pointer-events-none fixed right-16 sm:right-24 top-1/2 -translate-y-1/2 z-20 max-w-[13rem] sm:max-w-[15rem] text-right transition-opacity duration-500 ${
-            rightOverlayVisible ? "opacity-100" : "opacity-0"
+            overlaysVisible ? "opacity-100" : "opacity-0"
           }`}
           aria-hidden
         >

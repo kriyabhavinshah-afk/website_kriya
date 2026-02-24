@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  webpack: (config, { dev }) => {
+    if (dev) config.cache = false;
+    return config;
+  },
   // Fix workspace root warning when pnpm lockfile exists in parent
   outputFileTracingRoot: path.join(process.cwd()),
   async headers() {

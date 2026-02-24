@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useCallback } from "react";
 
 interface AutoScrollCarouselProps {
   images: { src: string; alt: string }[];
@@ -11,28 +11,33 @@ export default function AutoScrollCarousel({ images, speed = 0.5 }: AutoScrollCa
   const trackRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number>(0);
   const posRef = useRef(0);
+  const pausedRef = useRef(false);
 
   const doubled = [...images, ...images];
 
-  useEffect(() => {
+  const animate = useCallback(() => {
     const track = trackRef.current;
     if (!track) return;
-
-    const halfWidth = track.scrollWidth / 2;
-
-    const animate = () => {
+    if (!pausedRef.current) {
+      const halfWidth = track.scrollWidth / 2;
       posRef.current += speed;
       if (posRef.current >= halfWidth) posRef.current = 0;
       track.style.transform = `translateX(-${posRef.current}px)`;
-      rafRef.current = requestAnimationFrame(animate);
-    };
+    }
+    rafRef.current = requestAnimationFrame(animate);
+  }, [speed]);
 
+  useEffect(() => {
     rafRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [speed, images]);
+  }, [animate]);
 
   return (
-    <div className="w-full overflow-hidden">
+    <div
+      className="w-full overflow-hidden"
+      onMouseEnter={() => { pausedRef.current = true; }}
+      onMouseLeave={() => { pausedRef.current = false; }}
+    >
       <div ref={trackRef} className="flex gap-4 will-change-transform" style={{ width: "max-content" }}>
         {doubled.map((img, i) => (
           <div key={i} className="flex-shrink-0 h-64 sm:h-80 lg:h-96">

@@ -9,7 +9,7 @@ export interface GalleryImage {
   caption?: string;
   /** Justify caption text (for grid tiles) */
   captionJustify?: boolean;
-  display?: "heroXX" | "heroX" | "hero" | "largeX" | "large" | "largePlus" | "medium" | "mediumNarrow" | "small" | "compact";
+  display?: "heroXX" | "heroX" | "hero" | "largeX" | "large" | "largePlus" | "medium" | "mediumNarrow" | "small" | "compact" | "tiny";
   group?: string;
   /** Reduce top spacing for this row (useful for images that feel too far below the previous) */
   reduceTopSpacing?: boolean;
@@ -89,6 +89,10 @@ export interface Project {
   phoneCarousel?: { images: { src: string; alt: string }[] };
   /** Optional single video shown after the carousel (when phoneCarousel is set) */
   projectVideo?: string;
+  /** When true, render projectVideo after gallery images instead of before */
+  videoAfterGallery?: boolean;
+  /** Second video rendered after gallery notes */
+  secondVideo?: string;
   /** Optional 7-image mood board; shown after the first gallery image when set */
   moodboard?: string[];
   credits?: string;
@@ -99,6 +103,10 @@ export interface Project {
   pageBackgroundColor?: string;
   /** Auto-scrolling photo carousel at the bottom of the page */
   carouselImages?: { src: string; alt: string }[];
+  /** Carousel style: "scroll" (default) or "slideshow" (one at a time, crossfade) */
+  carouselStyle?: "scroll" | "slideshow";
+  /** Award badge image shown top-right, disappears after scrolling past hero */
+  awardBadge?: string;
 }
 
 export const siteConfig = {
@@ -768,6 +776,96 @@ export const projects: Project[] = [
       { src: "/projects/sonic-at-starlight/carousel/photo-6.jpg", alt: "Sonic at Starlight" },
       { src: "/projects/sonic-at-starlight/carousel/photo-7.jpg", alt: "Sonic at Starlight" },
       { src: "/projects/sonic-at-starlight/carousel/photo-8.jpg", alt: "Sonic at Starlight" },
+    ],
+    awardBadge: "/projects/sonic-at-starlight/award-logo.avif",
+  },
+  {
+    slug: "marc-jacobs",
+    title: "Marc Jacobs",
+    descriptor: "",
+    year: "",
+    tags: [],
+    role: "",
+    context: "",
+    insight: "",
+    strategy: [],
+    creativeDirection: [],
+    deliverables: [],
+    impact: [],
+    galleryOverlay: {
+      line1: "Marc Jacobs",
+      line2: "The Trolley Sleeve Edition",
+    },
+    overlayLeftClass: "left-16 sm:left-24",
+    galleryOverlayRight: {
+      line1: "A sleek trolley sleeve makes this tote your easy airport to weekend companion. Made with attention to detail, it balances form and function in a style that travels.",
+      line2: "",
+    },
+    overlayRightShowFromFirst: true,
+    overlayRightHideAfterRow: 1,
+    galleryNotes: [
+      {
+        forRow: 2,
+        header: "NOTE",
+        lines: [
+          "Grounded in culture and constant movement, Mycah Matthews, 24, is the campaign's face: a fast rising music star whose edgy style and soulful sound reflect Marc Jacobs' rebellious energy. From NYC to festival stages worldwide, she travels light, lives on the go, and brings a bold, modern presence to every frame.",
+        ],
+        alignToImage: true,
+        fontStyle: "note-muted",
+      },
+    ],
+    galleryNotes: [
+      {
+        forRow: 2,
+        header: "NOTE",
+        lines: [
+          "Grounded in culture and constant movement, Mycah Matthews, 24, is the campaign's face: a fast rising music star whose edgy style and soulful sound reflect Marc Jacobs' rebellious energy. From NYC to festival stages worldwide, she travels light, lives on the go, and brings a bold, modern presence to every frame.",
+        ],
+        alignToImage: true,
+        fontStyle: "note-muted",
+        tinyTopSpacing: true,
+      },
+    ],
+    projectVideo: "/projects/marc-jacobs/video.mp4",
+    videoAfterGallery: true,
+    secondVideo: "/projects/marc-jacobs/iconic.mp4",
+    carouselImages: [
+      { src: "/projects/marc-jacobs/5-1.png", alt: "Marc Jacobs" },
+      { src: "/projects/marc-jacobs/5-2.png", alt: "Marc Jacobs" },
+      { src: "/projects/marc-jacobs/5-3.png", alt: "Marc Jacobs" },
+    ],
+    carouselStyle: "slideshow",
+    credits: "",
+    gallery: [
+      {
+        src: "/projects/marc-jacobs/cover.png",
+        alt: "Marc Jacobs",
+        caption: "Cover",
+        display: "medium",
+      },
+      {
+        src: "/projects/marc-jacobs/2.png",
+        alt: "Marc Jacobs",
+        display: "tiny",
+      },
+      {
+        src: "/projects/marc-jacobs/3-1.png",
+        alt: "Marc Jacobs",
+        display: "small",
+        group: "mj-tile",
+      },
+      {
+        src: "/projects/marc-jacobs/3-2.png",
+        alt: "Marc Jacobs",
+        display: "small",
+        group: "mj-tile",
+      },
+      {
+        src: "/projects/marc-jacobs/3-3.png",
+        alt: "Marc Jacobs",
+        display: "small",
+        group: "mj-tile",
+      },
     ],
   },
 ];
