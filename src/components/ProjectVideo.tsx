@@ -8,7 +8,7 @@ export default function ProjectVideo({ src }: { src: string }) {
 
   return (
     <div
-      className="mt-10 sm:mt-16 max-w-6xl mx-auto w-full px-2 sm:px-4"
+      className="mt-4 sm:mt-5 mb-40 sm:mb-52 max-w-6xl mx-auto w-full px-2 sm:px-4"
       onMouseOver={() => videoRef.current?.play()}
       onMouseOut={() => videoRef.current?.pause()}
       onClick={() => {

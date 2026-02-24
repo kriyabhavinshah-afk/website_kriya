@@ -48,16 +48,17 @@ function GalleryItem({
   className = "",
   hoverScaleClass = "group-hover:scale-[1.04]",
   containerClass = "overflow-hidden",
+  autoAspect = false,
 }: {
   image: GalleryImage;
   variant?: "hero" | "single" | "grid";
   className?: string;
   hoverScaleClass?: string;
   containerClass?: string;
+  autoAspect?: boolean;
 }) {
   const [hasError, setHasError] = useState(false);
 
-  const imgClass = "object-contain";
   const bgClass = "bg-transparent";
 
   const aspectClass =
@@ -80,6 +81,22 @@ function GalleryItem({
     );
   }
 
+  if (autoAspect && variant !== "grid") {
+    return (
+      <figure className={`group overflow-visible ${className}`}>
+        <div className={`${bgClass} ${containerClass} transition-transform duration-300 ease-out ${hoverScaleClass}`}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={image.src}
+            alt={image.alt}
+            className="w-full h-auto"
+            loading="lazy"
+          />
+        </div>
+      </figure>
+    );
+  }
+
   return (
     <figure className={`space-y-3 group py-2 overflow-visible ${className}`}>
       <div
@@ -89,7 +106,7 @@ function GalleryItem({
           src={image.src}
           alt={image.alt}
           fill
-          className={imgClass}
+          className="object-contain"
           sizes={
             variant === "grid"
               ? "(max-width: 640px) 100vw, 50vw"
@@ -346,14 +363,18 @@ export default function Gallery({
                 ? "mt-24 sm:mt-32"
                 : compactTop
                   ? "mt-12 sm:mt-16"
-                  : minimalTop
-                    ? "mt-6 sm:mt-8"
+                    : minimalTop
+                    ? compactSpacing
+                      ? "mt-6 sm:mt-8"
+                      : "mt-36 sm:mt-48"
                     : extraTop
                     ? "mt-48 sm:mt-64"
-                    : "mt-36 sm:mt-48";
+                    : compactSpacing
+                      ? "mt-12 sm:mt-16"
+                      : "mt-72 sm:mt-[22.5rem]";
         const extraGroupSpacingClass =
           previousRow?.kind === "group" && row.kind === "group"
-            ? "mt-64 sm:mt-80"
+            ? "mt-72 sm:mt-[22.5rem]"
             : "";
         const prevRowLooserSpacing = prevRowNote?.looserSpacingAfterNote === true;
         let spacingClass =
@@ -370,7 +391,7 @@ export default function Gallery({
           row.kind === "single" &&
           previousRow?.kind === "single"
         ) {
-          spacingClass = row.image.tightTopSpacing || row.image.tighterTopSpacing ? "-mt-[28rem] sm:-mt-[32rem]" : "mt-4 sm:mt-6";
+          spacingClass = row.image.tightTopSpacing || row.image.tighterTopSpacing ? "-mt-[28rem] sm:-mt-[32rem]" : "mt-72 sm:mt-[22.5rem]";
         }
 
         if (row.kind === "group") {
@@ -450,14 +471,14 @@ export default function Gallery({
         const widthClass = widthByDisplay[display];
         const basePadding =
           compactSpacing && (display === "heroXX" || display === "heroX" || display === "hero")
-            ? "py-4"
-            : compactSpacing && ["largeX", "large", "largePlus", "medium", "mediumNarrow"].includes(display)
-              ? "py-3"
+            ? "py-1"
+            : compactSpacing && ["largeX", "large", "largePlus", "medium", "mediumNarrow", "small", "compact"].includes(display)
+              ? "py-1"
               : paddingByDisplay[display];
         const isCoverImage = row.image.caption?.toLowerCase() === "cover";
         let paddingClass =
           rowIndex === 0
-            ? `${basePadding.replace("py-", "pt-0 pb-")} ${isCoverImage ? "pt-12 sm:pt-20" : ""}`
+            ? `${basePadding.replace("py-", "pt-0 pb-")} ${isCoverImage ? "pt-40 sm:pt-52" : ""}`
             : prevRowHasNoSpacingBelow
               ? basePadding.replace("py-", "pt-0 pb-")
               : basePadding;
@@ -487,6 +508,7 @@ export default function Gallery({
               variant={variant}
               hoverScaleClass={row.image.noHover ? "group-hover:scale-100" : hoverClass}
               containerClass={containerClass}
+              autoAspect={!!compactSpacing}
             />
             {rowNote && (
               <div

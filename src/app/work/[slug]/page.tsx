@@ -13,7 +13,9 @@ import RoyalVanLentMoodboardLayout from "@/components/RoyalVanLentMoodboardLayou
 import NextPrevNav from "@/components/NextPrevNav";
 import PhoneCarousel from "@/components/PhoneCarousel";
 import AutoPlayVideoRow from "@/components/AutoPlayVideoRow";
-import ProjectVideo from "@/components/ProjectVideo";
+import ProjectVideoPageSection from "@/components/ProjectVideoPageSection";
+import dynamic from "next/dynamic";
+const ProjectVideo = dynamic(() => import("@/components/ProjectVideo"));
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -65,7 +67,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             {project.phoneCarousel && project.phoneCarousel.images.length > 0 && project.gallery.length > 0 ? (
               <>
                 {/* First image (e.g. posters.jpg) — centered, no top padding */}
-                <div className="max-w-[52rem] mx-auto pt-0 pb-5 sm:pb-5 scroll-mt-20 sm:scroll-mt-24 snap-start">
+                <div className="max-w-[52rem] mx-auto pt-40 sm:pt-52 pb-5 sm:pb-5 scroll-mt-20 sm:scroll-mt-24 snap-start">
                   <figure className="space-y-3 group py-2 overflow-visible">
                     <div className="relative aspect-[4/5] sm:aspect-[3/4] bg-transparent overflow-hidden transition-transform duration-300 ease-out group-hover:scale-[1.08]">
                       <Image
@@ -80,7 +82,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   </figure>
                 </div>
                 {/* Second: carousel (Instagram 1, 2, 3) — centered as before; right-side text absolutely positioned so carousel doesn't move */}
-                <div className="mt-10 sm:mt-16 relative">
+                <div className="mt-40 sm:mt-52 relative">
                   <div className="max-w-[1280px] mx-auto">
                     <PhoneCarousel images={project.phoneCarousel.images} />
                   </div>
@@ -104,7 +106,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 {project.galleryNotes?.find((n) => n.forRow === 2) && (() => {
                   const note = project.galleryNotes!.find((n) => n.forRow === 2)!;
                   return (
-                    <div className="mt-20 sm:mt-28 mx-auto text-center max-w-md mb-52 sm:mb-80">
+                    <div className="mt-40 sm:mt-52 mx-auto text-center max-w-md mb-52 sm:mb-80">
                       {note.header && (
                         <p className="font-open-sans text-xs sm:text-sm text-foreground/70 font-normal mb-6 tracking-widest uppercase">
                           {note.header}
@@ -162,6 +164,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               </>
             ) : project.moodboard && project.gallery.length > 0 ? (
               <RoyalVanLentMoodboardLayout project={project} />
+            ) : project.projectVideo && project.gallery.length > 0 ? (
+              <ProjectVideoPageSection project={project} />
             ) : (
               project.gallery.length > 0 && (
                 <Gallery images={project.gallery} overlay={project.galleryOverlay} overlayLeftClass={project.overlayLeftClass} overlayHideAfterRow={project.overlayHideAfterRow} overlayRight={project.galleryOverlayRight} overlayRightShowFromFirst={project.overlayRightShowFromFirst} overlayRightHideAfterRow={project.overlayRightHideAfterRow} notes={project.galleryNotes} rowTitle={project.galleryRowTitle} compactBottom={project.compactBottom} />

@@ -97,6 +97,8 @@ export interface Project {
   compactBottom?: boolean;
   /** Custom page background color (e.g. "#ffffff") */
   pageBackgroundColor?: string;
+  /** Auto-scrolling photo carousel at the bottom of the page */
+  carouselImages?: { src: string; alt: string }[];
 }
 
 export const siteConfig = {
@@ -717,11 +719,9 @@ export const projects: Project[] = [
       line2: "At Starlight",
     },
     overlayLeftClass: "left-16 sm:left-24",
-    phoneCarousel: {
-      images: [
-        { src: "/projects/sonic-at-starlight/instagram/carousel-1.png", alt: "Sonic at Starlight" },
-        { src: "/projects/sonic-at-starlight/instagram/carousel-2.png", alt: "Sonic at Starlight" },
-      ],
+    galleryOverlayRight: {
+      line1: "Revitalizing Sonic's market presence through an integrated campaign strategy.",
+      line2: "",
     },
     projectVideo: "/projects/sonic-at-starlight/process-book.mp4",
     credits: "",
@@ -732,6 +732,42 @@ export const projects: Project[] = [
         caption: "Cover",
         display: "small",
       },
+      {
+        src: "/projects/sonic-at-starlight/phone-photo.jpg",
+        alt: "Sonic at Starlight",
+        display: "heroX",
+        minimalTopSpacing: true,
+      },
+      {
+        src: "/projects/sonic-at-starlight/screenshot-7-44-38.png",
+        alt: "Sonic at Starlight",
+        display: "compact",
+      },
+      {
+        src: "/projects/sonic-at-starlight/1.png",
+        alt: "Sonic at Starlight",
+        display: "medium",
+      },
+      {
+        src: "/projects/sonic-at-starlight/3.png",
+        alt: "Sonic at Starlight",
+        display: "medium",
+      },
+      {
+        src: "/projects/sonic-at-starlight/2.png",
+        alt: "Sonic at Starlight",
+        display: "medium",
+      },
+    ],
+    carouselImages: [
+      { src: "/projects/sonic-at-starlight/carousel/photo-1.png", alt: "Sonic at Starlight" },
+      { src: "/projects/sonic-at-starlight/carousel/photo-2.jpg", alt: "Sonic at Starlight" },
+      { src: "/projects/sonic-at-starlight/carousel/photo-3.jpg", alt: "Sonic at Starlight" },
+      { src: "/projects/sonic-at-starlight/carousel/photo-4.jpg", alt: "Sonic at Starlight" },
+      { src: "/projects/sonic-at-starlight/carousel/photo-5.jpg", alt: "Sonic at Starlight" },
+      { src: "/projects/sonic-at-starlight/carousel/photo-6.jpg", alt: "Sonic at Starlight" },
+      { src: "/projects/sonic-at-starlight/carousel/photo-7.jpg", alt: "Sonic at Starlight" },
+      { src: "/projects/sonic-at-starlight/carousel/photo-8.jpg", alt: "Sonic at Starlight" },
     ],
   },
 ];
