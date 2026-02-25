@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { siteConfig } from "@/content/projects";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const RESEND_API_KEY = "re_71cyozjv_H8TtSw4xzcPsAVk6XxUzoCed";
+const resend = new Resend(RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,14 +14,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Name, email, and message are required." },
         { status: 400 }
-      );
-    }
-
-    if (!process.env.RESEND_API_KEY) {
-      console.error("RESEND_API_KEY is not set");
-      return NextResponse.json(
-        { error: "Contact form is not configured. Please try emailing directly." },
-        { status: 503 }
       );
     }
 
