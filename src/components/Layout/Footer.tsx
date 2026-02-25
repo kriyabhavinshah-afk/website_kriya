@@ -4,7 +4,7 @@ import { siteConfig } from "@/content/projects";
 export default function Footer() {
   return (
     <footer
-      className="relative z-10 border-t border-border mt-24 sm:mt-32 bg-background"
+      className="relative z-20 border-t border-border mt-24 sm:mt-32 bg-background isolate"
       role="contentinfo"
       aria-label="Site footer"
     >
@@ -17,6 +17,16 @@ export default function Footer() {
 
           <nav aria-label="Footer links">
             <ul className="flex flex-wrap gap-6 sm:gap-8">
+              <li>
+                <Link href="/work" className="text-sm text-muted hover:text-foreground transition-colors">
+                  Work
+                </Link>
+              </li>
+              <li>
+                <Link href="/resume" className="text-sm text-muted hover:text-foreground transition-colors">
+                  Resume
+                </Link>
+              </li>
               <li>
                 <a
                   href={`mailto:${siteConfig.email}`}
@@ -34,14 +44,6 @@ export default function Footer() {
                 >
                   LinkedIn
                 </a>
-              </li>
-              <li>
-                <Link
-                  href="/resume"
-                  className="text-sm text-muted hover:text-foreground transition-colors"
-                >
-                  Resume
-                </Link>
               </li>
             </ul>
           </nav>

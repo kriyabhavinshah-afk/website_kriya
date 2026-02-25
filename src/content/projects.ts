@@ -124,7 +124,7 @@ export const siteConfig = {
   linkedin: "https://www.linkedin.com/in/kriya-shah21",
   location: "Atlanta, GA",
   aboutPreview:
-    "I work at the intersection of brand strategy and creative execution. My process starts with research and insight, then moves through concept development into visual systems that feel both considered and alive.",
+    "I am Kriya Shah, a multidisciplinary brand professional with a background in Advertising and Branding and hands-on experience across campaigns, graphic design, and digital content. I have completed a Master's in Luxury Brand Management, and I'm drawn to work that blends strategy with taste, where storytelling and design come together with clarity and intention.",
 };
 
 export const projects: Project[] = [
