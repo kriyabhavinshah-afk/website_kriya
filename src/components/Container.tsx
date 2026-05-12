@@ -10,7 +10,7 @@ export default function Container({
   as: Component = "div",
 }: ContainerProps) {
   return (
-    <Component className={`max-w-content mx-auto px-6 ${className}`}>
+    <Component className={`max-w-content mx-auto px-4 sm:px-6 ${className}`}>
       {children}
     </Component>
   );

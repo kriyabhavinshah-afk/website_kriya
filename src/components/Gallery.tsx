@@ -309,7 +309,7 @@ export default function Gallery({
     <div className={`relative ${className}`} role="list">
       {overlay && (
         <div
-          className={`pointer-events-none fixed top-1/2 -translate-y-1/2 z-20 transition-opacity duration-300 max-w-[14rem] sm:max-w-[16rem] ${overlayLeftClass ?? "left-8 sm:left-16"} ${
+          className={`pointer-events-none fixed top-1/2 -translate-y-1/2 z-20 transition-opacity duration-300 max-w-[14rem] sm:max-w-[16rem] hidden sm:block ${overlayLeftClass ?? "left-8 sm:left-16"} ${
             overlayVisible ? "opacity-100" : "opacity-0"
           }`}
           aria-hidden
@@ -326,7 +326,7 @@ export default function Gallery({
       )}
       {overlayRight && (
         <div
-          className={`pointer-events-none fixed right-20 sm:right-32 top-1/2 -translate-y-1/2 z-20 transition-opacity duration-300 max-w-[14rem] sm:max-w-[18rem] text-right ${
+          className={`pointer-events-none fixed right-20 sm:right-32 top-1/2 -translate-y-1/2 z-20 transition-opacity duration-300 max-w-[14rem] sm:max-w-[18rem] text-right hidden sm:block ${
             overlayRightVisible ? "opacity-100" : "opacity-0"
           }`}
           aria-hidden

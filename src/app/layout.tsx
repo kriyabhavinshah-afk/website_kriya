@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Open_Sans, Cormorant_Garamond } from "next/font/google";
 import { siteConfig } from "@/content/projects";
 import Layout from "@/components/Layout";
@@ -22,6 +22,12 @@ const cormorantGaramond = Cormorant_Garamond({
   weight: ["300", "400", "500", "600"],
   variable: "--font-canela",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: {

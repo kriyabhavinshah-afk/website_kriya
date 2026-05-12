@@ -5,7 +5,6 @@ import ProjectCard from "./ProjectCard";
 import type { Project } from "@/content/projects";
 
 const GAP_REM = 1;
-const VISIBLE = 3;
 
 interface ProjectsCarouselProps {
   projects: Project[];
@@ -17,18 +16,29 @@ export default function ProjectsCarousel({ projects, className = "" }: ProjectsC
   const [isPaused, setIsPaused] = useState(false);
   const [stepPx, setStepPx] = useState(0);
   const [isJumping, setIsJumping] = useState(false);
+  const [visible, setVisible] = useState(3);
   const viewportRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
   const n = projects.length;
 
-  // Measure viewport and compute one "step" (one card width + gap) so exactly 3 cards fit
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      setVisible(w < 640 ? 1 : w < 1024 ? 2 : 3);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  // Measure viewport and compute one "step" (one card width + gap) so exactly `visible` cards fit
   useEffect(() => {
     const updateStep = () => {
       const el = viewportRef.current;
       if (!el || n === 0) return;
       const gapPx = GAP_REM * 16;
       const viewportWidth = el.clientWidth;
-      const cardWidth = (viewportWidth - (VISIBLE - 1) * gapPx) / VISIBLE;
+      const cardWidth = (viewportWidth - (visible - 1) * gapPx) / visible;
       setStepPx(cardWidth + gapPx);
     };
     updateStep();
@@ -39,7 +49,7 @@ export default function ProjectsCarousel({ projects, className = "" }: ProjectsC
       ro.disconnect();
       window.removeEventListener("resize", updateStep);
     };
-  }, [n]);
+  }, [n, visible]);
 
   const goNext = useCallback(() => {
     if (n <= 1) return;
@@ -129,7 +139,7 @@ export default function ProjectsCarousel({ projects, className = "" }: ProjectsC
             <button
               type="button"
               onClick={goPrev}
-              className="absolute -left-10 top-1/2 z-10 -translate-y-1/2 p-1 text-foreground/70 transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+              className="absolute left-1 sm:-left-10 top-1/2 z-10 -translate-y-1/2 p-2 sm:p-1 text-foreground/70 bg-background/80 sm:bg-transparent rounded-full sm:rounded-none transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
               aria-label="Previous projects"
             >
               <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,7 +149,7 @@ export default function ProjectsCarousel({ projects, className = "" }: ProjectsC
             <button
               type="button"
               onClick={goNext}
-              className="absolute -right-10 top-1/2 z-10 -translate-y-1/2 p-1 text-foreground/70 transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+              className="absolute right-1 sm:-right-10 top-1/2 z-10 -translate-y-1/2 p-2 sm:p-1 text-foreground/70 bg-background/80 sm:bg-transparent rounded-full sm:rounded-none transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
               aria-label="Next projects"
             >
               <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
